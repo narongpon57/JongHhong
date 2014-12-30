@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">JongHhong</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Login -->
+    <string name="header">JongHhong</string>
+    <string name="username">ชื่อผู้ใช้งาน</string>
+    <string name="password">รหัสผ่าน</string>
+    <string name="loginButton">เข้าสู่ระบบ</string>
+
+</resources>
