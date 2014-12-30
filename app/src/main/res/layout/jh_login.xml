@@ -10,7 +10,8 @@
         android:textSize="50sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        android:id="@+id/tv_header"/>
+        android:id="@+id/tv_header"
+        />
 
     <EditText
         android:layout_width="wrap_content"
@@ -34,6 +35,9 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@s"/>
+        android:text="@string/loginButton"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/edt_pass"
+        android:layout_marginTop="30dp"/>
 
 </RelativeLayout>
