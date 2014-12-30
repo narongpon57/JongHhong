@@ -3,12 +3,14 @@ package com.example.narongpon.jonghhong;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.gc.materialdesign.widgets.Dialog;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -34,10 +36,21 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 String txtUser = edtUser.getText().toString();
                 String txtPass = edtPass.getText().toString();
-
+                Dialog dialog;
+                Log.e("test","out");
                 if(txtUser.equals("zdbw0057") && txtPass.equals("123456")) {
-                    Intent i = new Intent(getApplicationContext(),JHCheckRoom.class);
+                    Intent i = new Intent(getApplicationContext(), JHCheckRoom.class);
                     startActivity(i);
+                } else if (txtUser.equals("") || txtPass.equals("")){
+                    Log.e("test","1");
+                    dialog = new Dialog(getApplication(),"Error!","Please input Username and Password");
+                    Log.e("test","2");
+                    dialog.show();
+                    Log.e("test","3");
+                } else {
+                    Log.e("test","4");
+                    dialog = new Dialog(getApplication(),"Error!","Username or Password is incorrect");
+                    dialog.show();
                 }
 
             }
