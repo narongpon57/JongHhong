@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8BC34A">
+    android:background="#CDDC39">
 
 
     <TextView
@@ -24,6 +24,8 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:hint="Username"
+        android:drawableStart="@drawable/ic_account"
+
         />
 
     <EditText
@@ -35,7 +37,10 @@
         android:layout_below="@+id/edt_user"
         android:hint="Password"
         android:inputType="textPassword"
+        android:drawableStart="@drawable/ic_lock"
+
         />
+
 
     <com.gc.materialdesign.views.ButtonRectangle
         android:layout_width="wrap_content"
@@ -44,7 +49,9 @@
         android:id="@+id/btn_login"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/edt_pass"
-        android:layout_marginTop="30dp"
-        android:background="#FFC107"
+        android:layout_marginTop="15dp"
+        android:background="#827717"
+        android:layout_alignStart="@+id/edt_pass"
+        android:layout_alignEnd="@+id/edt_pass"
         />
 </RelativeLayout>
