@@ -8,8 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.gc.materialdesign.views.ButtonRectangle;
-import com.gc.materialdesign.widgets.Dialog;
+
 
 
 public class MainActivity extends ActionBarActivity {
@@ -17,7 +18,7 @@ public class MainActivity extends ActionBarActivity {
     private EditText edtUser;
     private EditText edtPass;
     private ButtonRectangle btnLogin;
-    Dialog dialog;
+    MaterialDialog.Builder mtrDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +28,12 @@ public class MainActivity extends ActionBarActivity {
         btnLogin = (ButtonRectangle)findViewById(R.id.btn_login);
         edtUser = (EditText)findViewById(R.id.edt_user);
         edtPass = (EditText)findViewById(R.id.edt_pass);
+        mtrDialog = new MaterialDialog.Builder(MainActivity.this);
 
 
         edtUser.setText("");
         edtPass.setText("");
+
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -43,15 +46,22 @@ public class MainActivity extends ActionBarActivity {
                     Intent i = new Intent(getApplicationContext(),JHCheckRoom.class);
                     startActivity(i);
                 } else if(txtUser.equals("") || txtPass.equals("")) {
-                    dialog = new Dialog(MainActivity.this,"Error!","Please input Username and Password");
-                    dialog.show();
+                    mtrDialog.title("Error");
+                    mtrDialog.content("Please input Username and Password");
+                    mtrDialog.negativeText("Close");
+                    mtrDialog.show();
                 } else {
-                    dialog = new Dialog(MainActivity.this,"Error!","Username and Password is incorrect");
-                    dialog.show();
-                }
+                    mtrDialog.title("Error");
+                    mtrDialog.content("Username or Password is incorrect");
+                    mtrDialog.negativeText("Close");
+                    mtrDialog.show();
 
+                    edtUser.setText("");
+                    edtPass.setText("");
+                }
             }
         });
+
 
     }
 
