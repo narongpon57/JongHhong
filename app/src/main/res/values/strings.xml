@@ -11,11 +11,6 @@
     <string name="password">รหัสผ่าน</string>
     <string name="loginButton">เข้าสู่ระบบ</string>
 
-    <!-- Color -->
-    <color name="white">#FFFFFF</color>
-    <color name="actionbar_color">#bf360c</color>
-    <color name="drawer_arrow_second_color">#303f9f</color>
-
     <!--navDrawer-->
     <string name="drawer_open">drawer_open</string>
     <string name="drawer_close">drawer_close</string>

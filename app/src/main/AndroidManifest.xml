@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".JHCheckRoom"/>
+        <activity android:name=".JHCheckRoom" android:theme="@style/AppTheme"/>
 
 
     </application>
