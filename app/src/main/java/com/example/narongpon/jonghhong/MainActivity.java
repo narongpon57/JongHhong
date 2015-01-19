@@ -43,17 +43,17 @@ public class MainActivity extends ActionBarActivity {
                 String txtPass = edtPass.getText().toString();
 
                 if(txtUser.equals("zdbw0057") && txtPass.equals("123456")) {
-                    Intent i = new Intent(getApplicationContext(),JHCheckRoom.class);
+                    Intent i = new Intent(getApplicationContext(),MainDrawer.class);
                     startActivity(i);
                 } else if(txtUser.equals("") || txtPass.equals("")) {
-                    mtrDialog.title("Error");
-                    mtrDialog.content("Please input Username and Password");
-                    mtrDialog.negativeText("Close");
+                    mtrDialog.title("ข้อผิดพลาด");
+                    mtrDialog.content("กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ครบถ้วน");
+                    mtrDialog.negativeText("ปิด");
                     mtrDialog.show();
                 } else {
-                    mtrDialog.title("Error");
-                    mtrDialog.content("Username or Password is incorrect");
-                    mtrDialog.negativeText("Close");
+                    mtrDialog.title("ข้อผิดพลาด");
+                    mtrDialog.content("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+                    mtrDialog.negativeText("ปิด");
                     mtrDialog.show();
 
                     edtUser.setText("");
