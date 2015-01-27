@@ -1,5 +1,6 @@
 package com.example.narongpon.jonghhong;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.content.res.Configuration;
@@ -21,7 +22,7 @@ public class MainDrawer extends ActionBarActivity {
     private Toolbar toolbar;
     private DrawerFrameLayout drawer;
     private ActionBarDrawerToggle drawerToggle;
-    private Drawable checkRoom_ic, editProfile_ic, resvHistory_ic, setting_ic;
+    private Drawable checkRoom_ic, editProfile_ic, resvHistory_ic, setting_ic, resvRoom_ic, logout_ic;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,25 +61,36 @@ public class MainDrawer extends ActionBarActivity {
         checkRoom_ic = getResources().getDrawable(R.drawable.calendar_ic);
         drawer.addItem(new DrawerItem()
                 .setImage(checkRoom_ic)
-                .setTextPrimary("CheckRoom"));
+                .setTextPrimary("ตรวจสอบเวลาห้องประชุม"));
+
 
         editProfile_ic = getResources().getDrawable(R.drawable.user_ic);
         drawer.addItem(new DrawerItem()
                 .setImage(editProfile_ic)
-                .setTextPrimary("EditProfile"));
+                .setTextPrimary("แก้ไขข้อมูลส่วนตัว"));
+
+
+        resvRoom_ic = getResources().getDrawable(R.drawable.reservation_ic);
+        drawer.addItem(new DrawerItem()
+                .setImage(resvRoom_ic)
+                .setTextPrimary("จองห้องประชุม"));
 
         resvHistory_ic = getResources().getDrawable(R.drawable.history_ic);
         drawer.addItem(new DrawerItem()
                 .setImage(resvHistory_ic)
-                .setTextPrimary("ResvHistory"));
+                .setTextPrimary("ประวัติจองห้องประชุม"));
 
         drawer.addDivider();
 
         setting_ic = getResources().getDrawable(R.drawable.settings_ic);
         drawer.addItem(new DrawerItem()
                 .setImage(setting_ic)
-                .setTextPrimary("Setting"));
+                .setTextPrimary("ตั้งค่า"));
 
+        logout_ic = getResources().getDrawable(R.drawable.logout_ic);
+        drawer.addItem(new DrawerItem()
+                .setImage(logout_ic)
+                .setTextPrimary("ออกจากระบบ"));
 
         drawer.setOnItemClickListener(new DrawerItem.OnItemClickListener() {
             @Override
@@ -121,6 +133,9 @@ public class MainDrawer extends ActionBarActivity {
         Fragment fragment = null;
         if(position == 0) {
             fragment = new JHCheckRoom();
+        }else if(position == 6) {
+            Intent i = new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(i);
         }
 
         if(fragment != null) {

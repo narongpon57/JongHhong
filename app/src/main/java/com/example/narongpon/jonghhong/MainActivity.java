@@ -58,6 +58,7 @@ public class MainActivity extends ActionBarActivity {
 
                     edtUser.setText("");
                     edtPass.setText("");
+
                 }
             }
         });
