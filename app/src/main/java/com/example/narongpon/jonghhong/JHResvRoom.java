@@ -13,7 +13,7 @@ public class JHResvRoom extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootVieW = inflater.inflate(R.layout.jh_checkroom, container , false);
+        rootVieW = inflater.inflate(R.layout.jh_resvroom, container , false);
         return rootVieW;
     }
 }

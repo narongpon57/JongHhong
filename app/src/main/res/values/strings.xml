@@ -9,10 +9,28 @@
     <string name="header">JongHhong</string>
     <string name="username">ชื่อผู้ใช้</string>
     <string name="password">รหัสผ่าน</string>
-    <string name="loginButton">เข้าสู่ระบบ</string>
+
 
     <!--navDrawer-->
     <string name="drawer_open">drawer_open</string>
     <string name="drawer_close">drawer_close</string>
+
+    <!--reservationRoom-->
+    <string name="resvDate">วันที่ต้องการจองห้อง:</string>
+    <string name="startTime">เวลาเริ่มใช้ห้อง:</string>
+    <string name="endTime">เวลาสิ้นสุดใช้ห้อง:</string>
+    <string name="room">ห้องประชุม:</string>
+
+    <!--edit profile-->
+    <string name="userID">รหัสนักศึษา:</string>
+    <string name="name">ชื่อ - นามสกุล:</string>
+    <string name="permission">สถานะ:</string>
+    <string name="tel">เบอร์โทรศัพท์:</string>
+    <string name="email">อีเมล์</string>
+
+    <!--button-->
+    <string name="loginButton">เข้าสู่ระบบ</string>
+    <string name="resvRoomButton">บันทึก</string>
+    <string name="editProfileButton">บันทึก</string>
 
 </resources>

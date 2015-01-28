@@ -51,7 +51,7 @@ public class MainDrawer extends ActionBarActivity {
         drawer.setDrawerListener(drawerToggle);
         drawer.closeDrawer();
 
-        Drawable background = getResources().getDrawable(R.drawable.bg);
+        Drawable background = getResources().getDrawable(R.drawable.bg2);
         background.setAlpha(100);
         drawer.setProfile(new DrawerProfile()
                 .setBackground(background)
@@ -133,6 +133,14 @@ public class MainDrawer extends ActionBarActivity {
         Fragment fragment = null;
         if(position == 0) {
             fragment = new JHCheckRoom();
+        }else if(position == 1){
+            fragment = new JHEditProfile();
+        }else if(position == 2){
+            fragment = new JHResvRoom();
+        }else if(position == 3){
+
+        }else if(position == 4){
+
         }else if(position == 6) {
             Intent i = new Intent(getApplicationContext(),MainActivity.class);
             startActivity(i);
