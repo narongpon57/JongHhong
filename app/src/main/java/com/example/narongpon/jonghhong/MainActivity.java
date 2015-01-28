@@ -30,11 +30,8 @@ public class MainActivity extends ActionBarActivity {
         edtPass = (EditText)findViewById(R.id.edt_pass);
         mtrDialog = new MaterialDialog.Builder(MainActivity.this);
 
-
         edtUser.setText("");
         edtPass.setText("");
-
-
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +62,6 @@ public class MainActivity extends ActionBarActivity {
 
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
