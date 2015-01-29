@@ -13,16 +13,19 @@
         android:paddingRight="50dp"
         android:paddingBottom="50dp">
 
-        <TextView
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/resvDate"
-            android:textSize="14sp"/>
+            android:textSize="14sp"/>-->
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/resvRoom_edt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            app:floatingLabel="normal"
+            android:hint="@string/resvDate"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,7 +36,8 @@
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/stTime_edt"/>
+            android:id="@+id/stTime_edt"
+            android:focusable="false"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,7 +48,8 @@
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/enTime_edt"/>
+            android:id="@+id/enTime_edt"
+            android:focusable="false"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,13 +60,14 @@
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/room_edt"/>
+            android:id="@+id/room_edt"
+            android:focusable="false"/>
 
         <com.gc.materialdesign.views.ButtonRectangle
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/resvRoomButton"
-            android:id="@+id/resvButton"
+            android:id="@+id/btn_resvRoom"
             android:background="#827717"/>
     </LinearLayout>
 

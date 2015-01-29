@@ -138,7 +138,7 @@ public class MainDrawer extends ActionBarActivity {
         }else if(position == 2){
             fragment = new JHResvRoom();
         }else if(position == 3){
-
+            fragment = new JHResvHistory();
         }else if(position == 4){
 
         }else if(position == 6) {

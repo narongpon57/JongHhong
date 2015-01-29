@@ -26,7 +26,7 @@
     <string name="name">ชื่อ - นามสกุล:</string>
     <string name="permission">สถานะ:</string>
     <string name="tel">เบอร์โทรศัพท์:</string>
-    <string name="email">อีเมล์</string>
+    <string name="email">อีเมล์:</string>
 
     <!--button-->
     <string name="loginButton">เข้าสู่ระบบ</string>

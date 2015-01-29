@@ -25,13 +25,9 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jh_login);
 
-        btnLogin = (ButtonRectangle)findViewById(R.id.btn_login);
-        edtUser = (EditText)findViewById(R.id.edt_user);
-        edtPass = (EditText)findViewById(R.id.edt_pass);
-        mtrDialog = new MaterialDialog.Builder(MainActivity.this);
+        init();
 
-        edtUser.setText("");
-        edtPass.setText("");
+        mtrDialog = new MaterialDialog.Builder(MainActivity.this);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +57,15 @@ public class MainActivity extends ActionBarActivity {
         });
 
 
+    }
+
+    public void init(){
+        btnLogin = (ButtonRectangle)findViewById(R.id.btn_login);
+        edtUser = (EditText)findViewById(R.id.edt_user);
+        edtPass = (EditText)findViewById(R.id.edt_pass);
+
+        edtUser.setText("");
+        edtPass.setText("");
     }
 
     @Override

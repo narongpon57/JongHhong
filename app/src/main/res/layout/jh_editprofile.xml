@@ -57,14 +57,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tel_edt"
-            android:hint="เบอร์โทรศัพท์"
+            android:hint="@string/tel"
             app:floatingLabel="normal"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/email_edt"
-            android:hint="อีเมล์"
+            android:hint="@string/email"
             app:floatingLabel="normal"/>
 
         <com.gc.materialdesign.views.ButtonRectangle
