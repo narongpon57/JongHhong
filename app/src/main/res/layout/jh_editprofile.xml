@@ -58,14 +58,20 @@
             android:layout_height="wrap_content"
             android:id="@+id/tel_edt"
             android:hint="@string/tel"
-            app:floatingLabel="normal"/>
+            app:floatingLabel="highlight"
+            app:floatingLabelTextSize="14sp"
+            app:baseColor="#000000"
+            app:primaryColor="#827717"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/email_edt"
             android:hint="@string/email"
-            app:floatingLabel="normal"/>
+            app:floatingLabel="highlight"
+            app:floatingLabelTextSize="14sp"
+            app:baseColor="#000000"
+            app:primaryColor="#827717"/>
 
         <com.gc.materialdesign.views.ButtonRectangle
             android:layout_width="match_parent"

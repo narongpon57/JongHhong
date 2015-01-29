@@ -22,6 +22,7 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
 
     private EditText edtResvDate, edtStTime, edtEnTime;
     private ButtonRectangle btnSave;
+    private String chkTime = "";
 
     private DatePickerDialog mDatePicker;
     private TimePickerDialog mTimePicker;
@@ -60,6 +61,7 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
         edtStTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                chkTime = "st";
                 mTimePicker.show(getActivity().getSupportFragmentManager(), "TimePicker");
             }
         });
@@ -67,7 +69,15 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
         edtEnTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                chkTime = "en";
                 mTimePicker.show(getActivity().getSupportFragmentManager(), "TimePicker");
+            }
+        });
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resvRoom();
             }
         });
 
@@ -81,13 +91,26 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
         btnSave = (ButtonRectangle)rootVieW.findViewById(R.id.btn_resvRoom);
     }
 
+    public void resvRoom() {
+
+    }
+
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-        edtResvDate.setText(day + "/" + month + "/" + year);
+
+        int currentMonth = month + 1;
+
+        edtResvDate.setText(day + "/" + currentMonth + "/" + year);
     }
 
     @Override
     public void onTimeSet(RadialPickerLayout view,int hourOfDay, int minute) {
+
+        if(chkTime.equals("st")) {
+            edtStTime.setText(hourOfDay + "." + minute);
+        } else if(chkTime.equals("en")) {
+            edtEnTime.setText(hourOfDay + "." + minute);
+        }
 
     }
 }

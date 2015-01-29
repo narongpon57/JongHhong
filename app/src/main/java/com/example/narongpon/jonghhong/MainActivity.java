@@ -25,7 +25,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jh_login);
 
-        init();
+        initWidget();
 
         mtrDialog = new MaterialDialog.Builder(MainActivity.this);
 
@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public void init(){
+    public void initWidget(){
         btnLogin = (ButtonRectangle)findViewById(R.id.btn_login);
         edtUser = (EditText)findViewById(R.id.edt_user);
         edtPass = (EditText)findViewById(R.id.edt_pass);

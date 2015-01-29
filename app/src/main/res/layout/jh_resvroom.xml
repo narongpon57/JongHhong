@@ -13,19 +13,17 @@
         android:paddingRight="50dp"
         android:paddingBottom="50dp">
 
-        <!--<TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/resvDate"
-            android:textSize="14sp"/>-->
+            android:textSize="14sp"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/resvRoom_edt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            app:floatingLabel="normal"
-            android:hint="@string/resvDate"/>
+            android:focusable="false"/>
 
         <TextView
             android:layout_width="wrap_content"
