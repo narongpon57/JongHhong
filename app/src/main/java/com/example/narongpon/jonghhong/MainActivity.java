@@ -1,16 +1,37 @@
 package com.example.narongpon.jonghhong;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gc.materialdesign.views.ButtonRectangle;
 
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -19,6 +40,7 @@ public class MainActivity extends ActionBarActivity {
     private EditText edtPass;
     private ButtonRectangle btnLogin;
     MaterialDialog.Builder mtrDialog;
+    private ProgressDialog mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,28 +57,18 @@ public class MainActivity extends ActionBarActivity {
                 String txtUser = edtUser.getText().toString();
                 String txtPass = edtPass.getText().toString();
 
-                if(txtUser.equals("zdbw0057") && txtPass.equals("123456")) {
-                    Intent i = new Intent(getApplicationContext(),MainDrawer.class);
-                    startActivity(i);
-                } else if(txtUser.equals("") || txtPass.equals("")) {
+                if(txtUser.equals("") || txtPass.equals("")) {
                     mtrDialog.title("ข้อผิดพลาด");
                     mtrDialog.content("กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ครบถ้วน");
                     mtrDialog.negativeText("ปิด");
                     mtrDialog.show();
                 } else {
-                    mtrDialog.title("ข้อผิดพลาด");
-                    mtrDialog.content("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
-                    mtrDialog.negativeText("ปิด");
-                    mtrDialog.show();
-
-                    edtUser.setText("");
-                    edtPass.setText("");
-
+                    String serverURL = "http://jonghhong.uinno.co.th/JHMobile/checkLogin.php";
+                    new SimpleTask().execute(serverURL);
+                    Log.e("test1","Log");
                 }
             }
         });
-
-
     }
 
     public void initWidget(){
@@ -68,25 +80,138 @@ public class MainActivity extends ActionBarActivity {
         edtPass.setText("");
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    private class SimpleTask extends AsyncTask<String,Void,String> {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        @Override
+        protected void onPreExecute() {
+            mProgress = new ProgressDialog(MainActivity.this);
+            mProgress.setTitle("กำลังโหลด...");
+            mProgress.setMessage("กำลังเข้าสู่ระบบ..");
+            mProgress.setIndeterminate(false);
+            mProgress.setCancelable(false);
+            mProgress.show();
         }
 
-        return super.onOptionsItemSelected(item);
+        @Override
+        protected String doInBackground(String... urls) {
+            Log.e("test2","Log");
+            StringBuilder str = new StringBuilder();
+            HttpClient client = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(urls[0]);
+
+            List<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("username" , edtUser.getText().toString()));
+            params.add(new BasicNameValuePair("password" , edtPass.getText().toString()));
+
+            try {
+                Log.e("test3","Log");
+                httpPost.setEntity(new UrlEncodedFormEntity(params));
+                HttpResponse response = client.execute(httpPost);
+                StatusLine statusLine = response.getStatusLine();
+                int statusCode = statusLine.getStatusCode();
+                Log.e("StatusCode", String.valueOf(statusCode));
+                if(statusCode == 200) {
+                    Log.e("test6","Log");
+                    HttpEntity entity = response.getEntity();
+                    InputStream content = entity.getContent();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        str.append(line);
+                        Log.e("Log", line);
+                    }
+                } else {
+                    Log.e("Log", "Failed to download result..");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str.toString();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(String str) {
+            mProgress.dismiss();
+            isLoginSuccess(str);
+        }
+
     }
+
+    private void isLoginSuccess(String str){
+
+        JSONObject jsonObject;
+        String strFound = "0";
+        String strError = "ไม่สามารถเชื่อมต่อ server ได้";
+        String userID = "";
+        String firstName = "";
+        String lastName = "";
+        String permission = "";
+        String tel = "";
+        String email = "";
+        String namePermission = "";
+        String nameUser = "";
+
+        Log.e("Res",str);
+
+        try{
+            jsonObject = new JSONObject(str);
+            strFound = jsonObject.getString("Found");
+            strError = jsonObject.getString("Error");
+            userID = jsonObject.getString("u_id");
+            firstName = jsonObject.getString("fname");
+            lastName = jsonObject.getString("lname");
+            tel = jsonObject.getString("tel");
+            email = jsonObject.getString("email");
+            permission = jsonObject.getString("per");
+
+            nameUser = firstName + " " + lastName;
+            if(permission.equals("1")) {
+                namePermission = "นักศึกษา";
+            } else if (permission.equals("2")) {
+                namePermission = "อาจารย์";
+            } else if (permission.equals("3")) {
+                namePermission = "พนักงาน";
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        Log.e("Found" , strFound);
+        if(strFound.equals("0")) {
+            mtrDialog.title("ข้อผิดพลาด !");
+            mtrDialog.content(strError);
+            mtrDialog.negativeText("ปิด");
+            mtrDialog.show();
+
+            edtUser.setText("");
+            edtPass.setText("");
+        } else if(permission.equals("4")){
+            mtrDialog.title("ข้อผิดพลาด !");
+            mtrDialog.content("ผู้ดูแลระบบไม่สามารถใช้งานในส่วนนี้ได้");
+            mtrDialog.negativeText("ปิด");
+
+            mtrDialog.show();
+
+            edtUser.setText("");
+            edtPass.setText("");
+        } else {
+            Intent i = new Intent(getApplicationContext(),MainDrawer.class);
+            i.putExtra("myID" , userID);
+            i.putExtra("myFirstName" , firstName);
+            i.putExtra("myLastName" , lastName);
+            i.putExtra("myName", nameUser);
+            i.putExtra("myPermission", namePermission);
+            i.putExtra("Permission" , permission);
+            i.putExtra("myUsername" , edtUser.getText().toString());
+            startActivity(i);
+        }
+    }
+
 }
+
+
