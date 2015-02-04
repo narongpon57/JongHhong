@@ -63,9 +63,9 @@ public class MainActivity extends ActionBarActivity {
                     mtrDialog.negativeText("ปิด");
                     mtrDialog.show();
                 } else {
+                    //String serverURL = "http://10.0.3.2/jh_mobile/checkLogin.php";
                     String serverURL = "http://jonghhong.uinno.co.th/JHMobile/checkLogin.php";
                     new SimpleTask().execute(serverURL);
-                    Log.e("test1","Log");
                 }
             }
         });
@@ -94,7 +94,6 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... urls) {
-            Log.e("test2","Log");
             StringBuilder str = new StringBuilder();
             HttpClient client = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(urls[0]);
@@ -104,21 +103,19 @@ public class MainActivity extends ActionBarActivity {
             params.add(new BasicNameValuePair("password" , edtPass.getText().toString()));
 
             try {
-                Log.e("test3","Log");
                 httpPost.setEntity(new UrlEncodedFormEntity(params));
                 HttpResponse response = client.execute(httpPost);
                 StatusLine statusLine = response.getStatusLine();
                 int statusCode = statusLine.getStatusCode();
                 Log.e("StatusCode", String.valueOf(statusCode));
                 if(statusCode == 200) {
-                    Log.e("test6","Log");
                     HttpEntity entity = response.getEntity();
                     InputStream content = entity.getContent();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(content));
                     String line;
                     while ((line = reader.readLine()) != null) {
                         str.append(line);
-                        Log.e("Log", line);
+                        Log.e("SQL",line);
                     }
                 } else {
                     Log.e("Log", "Failed to download result..");
@@ -156,7 +153,6 @@ public class MainActivity extends ActionBarActivity {
         String namePermission = "";
         String nameUser = "";
 
-        Log.e("Res",str);
 
         try{
             jsonObject = new JSONObject(str);
@@ -199,6 +195,7 @@ public class MainActivity extends ActionBarActivity {
 
             edtUser.setText("");
             edtPass.setText("");
+
         } else {
             Intent i = new Intent(getApplicationContext(),MainDrawer.class);
             i.putExtra("myID" , userID);
@@ -208,6 +205,8 @@ public class MainActivity extends ActionBarActivity {
             i.putExtra("myPermission", namePermission);
             i.putExtra("Permission" , permission);
             i.putExtra("myUsername" , edtUser.getText().toString());
+            i.putExtra("myEmail" , email);
+            i.putExtra("myTel" , tel);
             startActivity(i);
         }
     }

@@ -139,10 +139,17 @@ public class MainDrawer extends ActionBarActivity {
     public void selectFragment(int position) {
 
         Fragment fragment = null;
+        Bundle bundle = new Bundle();
         if(position == 0) {
             fragment = new JHCheckRoom();
         }else if(position == 1){
+            bundle.putString("myID" , myID);
+            bundle.putString("myName" , myName);
+            bundle.putString("myPermission" , myPermission);
+            bundle.putString("myTel" , myTel);
+            bundle.putString("myEmail" , myEmail);
             fragment = new JHEditProfile();
+            fragment.setArguments(bundle);
         }else if(position == 2){
             fragment = new JHResvRoom();
         }else if(position == 3){

@@ -25,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/userID_edt"
-            android:text="5414110057"
             android:enabled="false"/>
 
         <TextView
@@ -37,7 +36,7 @@
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ณรงค์พล สุทธิมรรคผล"
+            android:id="@+id/name_edt"
             android:enabled="false"/>
 
         <TextView
@@ -49,7 +48,7 @@
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="นักศึกษา"
+            android:id="@+id/permission_edt"
             android:enabled="false"/>
 
 
