@@ -107,7 +107,7 @@ public class MainActivity extends ActionBarActivity {
                 HttpResponse response = client.execute(httpPost);
                 StatusLine statusLine = response.getStatusLine();
                 int statusCode = statusLine.getStatusCode();
-                Log.e("StatusCode", String.valueOf(statusCode));
+                //Log.e("StatusCode", String.valueOf(statusCode));
                 if(statusCode == 200) {
                     HttpEntity entity = response.getEntity();
                     InputStream content = entity.getContent();
@@ -115,7 +115,7 @@ public class MainActivity extends ActionBarActivity {
                     String line;
                     while ((line = reader.readLine()) != null) {
                         str.append(line);
-                        Log.e("SQL",line);
+                        //Log.e("SQL",line);
                     }
                 } else {
                     Log.e("Log", "Failed to download result..");
@@ -177,7 +177,6 @@ public class MainActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        Log.e("Found" , strFound);
         if(strFound.equals("0")) {
             mtrDialog.title("ข้อผิดพลาด !");
             mtrDialog.content(strError);

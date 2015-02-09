@@ -24,7 +24,7 @@ public class MainDrawer extends ActionBarActivity {
     private ActionBarDrawerToggle drawerToggle;
     private Drawable checkRoom_ic, editProfile_ic, resvHistory_ic, setting_ic, resvRoom_ic, logout_ic;
 
-    private String myName, myPermission, myID, myTel, myEmail;
+    private String myName, myPermission, myID, myTel, myEmail, permission;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +35,7 @@ public class MainDrawer extends ActionBarActivity {
         myID = getIntent().getExtras().getString("myID");
         myTel = getIntent().getExtras().getString("myTel");
         myEmail = getIntent().getExtras().getString("myEmail");
+        permission = getIntent().getExtras().getString("Permission");
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         drawer = (DrawerFrameLayout)findViewById(R.id.drawer);
@@ -151,7 +152,10 @@ public class MainDrawer extends ActionBarActivity {
             fragment = new JHEditProfile();
             fragment.setArguments(bundle);
         }else if(position == 2){
+            bundle.putString("myID" , myID);
+            bundle.putString("Permission" , permission);
             fragment = new JHResvRoom();
+            fragment.setArguments(bundle);
         }else if(position == 3){
             fragment = new JHResvHistory();
         }else if(position == 4){
@@ -167,6 +171,10 @@ public class MainDrawer extends ActionBarActivity {
 
             drawer.closeDrawer();
         }
+    }
+
+    public void onBackPressed() {
+        finish();
     }
 
 }

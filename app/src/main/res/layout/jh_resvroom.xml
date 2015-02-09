@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,7 +10,19 @@
         android:paddingTop="100dp"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
-        android:paddingBottom="50dp">
+        android:paddingBottom="50dp"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/room"
+            android:textSize="14sp"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinRoom" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -47,18 +58,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/enTime_edt"
-            android:focusable="false"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/room"
-            android:textSize="14sp"/>
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/room_edt"
             android:focusable="false"/>
 
         <com.gc.materialdesign.views.ButtonRectangle

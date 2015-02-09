@@ -40,14 +40,13 @@ import java.util.List;
 public class JHEditProfile extends Fragment{
 
     View rootView;
-    private String myName, myID, myPermission, myTel, myEmail;
+    private String myName, myID, myPermission, myTel, myEmail, permission;
 
     private EditText edtTel, edtEmail, edtUserID, edtNameUser, edtPermission;
     private ButtonRectangle btnUpdate;
     private ProgressDialog mProgress;
 
     MaterialDialog.Builder mtrDialog;
-    SuperActivityToast superActivityToast;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,6 +57,7 @@ public class JHEditProfile extends Fragment{
         myPermission = getArguments().getString("myPermission");
         myTel = getArguments().getString("myTel");
         myEmail = getArguments().getString("myEmail");
+
 
         initWidget();
 
@@ -120,8 +120,8 @@ public class JHEditProfile extends Fragment{
         @Override
         protected void onPreExecute() {
             mProgress = new ProgressDialog(getActivity());
-            mProgress.setTitle("กำลังโหลด...");
-            mProgress.setMessage("กำลังเข้าสู่ระบบ..");
+            //mProgress.setTitle("กำลังโหลด...");
+            mProgress.setMessage("กำลังแก้ไขข้อมูล..");
             mProgress.setIndeterminate(false);
             mProgress.setCancelable(false);
             mProgress.show();
