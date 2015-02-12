@@ -20,7 +20,7 @@
         </activity>
 
         <activity android:name=".MainDrawer" android:theme="@style/AppTheme"/>
-
+        <activity android:name=".JHFirstLogin" android:theme="@style/AppTheme"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

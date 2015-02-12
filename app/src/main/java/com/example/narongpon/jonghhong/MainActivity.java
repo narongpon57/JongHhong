@@ -63,7 +63,6 @@ public class MainActivity extends ActionBarActivity {
                     mtrDialog.negativeText("ปิด");
                     mtrDialog.show();
                 } else {
-                    //String serverURL = "http://10.0.3.2/jh_mobile/checkLogin.php";
                     String serverURL = "http://jonghhong.uinno.co.th/JHMobile/checkLogin.php";
                     new SimpleTask().execute(serverURL);
                 }
@@ -85,7 +84,6 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             mProgress = new ProgressDialog(MainActivity.this);
-            mProgress.setTitle("กำลังโหลด...");
             mProgress.setMessage("กำลังเข้าสู่ระบบ..");
             mProgress.setIndeterminate(false);
             mProgress.setCancelable(false);
@@ -195,7 +193,20 @@ public class MainActivity extends ActionBarActivity {
             edtUser.setText("");
             edtPass.setText("");
 
-        } else {
+        } else if(email.equals("null") && tel.equals("null")){
+            Log.e("test","test");
+            Intent i = new Intent(getApplicationContext(),JHFirstLogin.class);
+            i.putExtra("myID" , userID);
+            i.putExtra("myFirstName" , firstName);
+            i.putExtra("myLastName" , lastName);
+            i.putExtra("myName", nameUser);
+            i.putExtra("myPermission", namePermission);
+            i.putExtra("Permission" , permission);
+            i.putExtra("myUsername" , edtUser.getText().toString());
+            startActivity(i);
+        } else{
+
+
             Intent i = new Intent(getApplicationContext(),MainDrawer.class);
             i.putExtra("myID" , userID);
             i.putExtra("myFirstName" , firstName);

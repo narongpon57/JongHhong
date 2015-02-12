@@ -2,18 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ResvHistory"
-        android:textSize="50sp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
-
-    <android.support.v7.widget.SwitchCompat
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:background="@color/primary_dark_material_light"
-        android:layout_centerVertical="true"/>
+    <com.dexafree.materialList.view.MaterialListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listHistory"/>
 
 </RelativeLayout>

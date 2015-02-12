@@ -33,4 +33,8 @@
     <string name="resvRoomButton">บันทึก</string>
     <string name="editProfileButton">บันทึก</string>
 
+    <!--firstLogin-->
+    <string name="advice">กรุณากรอกข้อมูลให้ครบถ้วน</string>
+    <string name="gmail">อีเมล์: (กรอกเฉพาะ Gmail เท่านั้น)</string>
+
 </resources>

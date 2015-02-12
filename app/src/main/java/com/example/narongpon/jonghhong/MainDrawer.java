@@ -157,7 +157,10 @@ public class MainDrawer extends ActionBarActivity {
             fragment = new JHResvRoom();
             fragment.setArguments(bundle);
         }else if(position == 3){
+            bundle.putString("myID" , myID);
+            bundle.putString("Permission" , permission);
             fragment = new JHResvHistory();
+            fragment.setArguments(bundle);
         }else if(position == 4){
 
         }else if(position == 6) {

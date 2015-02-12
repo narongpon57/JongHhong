@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_firstLogin"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:contentInsetStart="72dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="100dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:paddingBottom="50dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/advice"
+            android:layout_gravity="center_horizontal"
+            android:textSize="18sp"/>
+
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edt_tel"
+            android:hint="@string/tel"
+            app:floatingLabel="highlight"
+            app:floatingLabelTextSize="14sp"
+            app:baseColor="#000000"
+            app:primaryColor="#827717"
+            android:layout_marginTop="50dp"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edt_email"
+            android:hint="@string/gmail"
+            app:floatingLabel="highlight"
+            app:floatingLabelTextSize="14sp"
+            app:baseColor="#000000"
+            app:primaryColor="#827717"/>
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/editProfileButton"
+            android:id="@+id/btn_firstLogin"
+            android:background="#827717"
+            android:layout_marginTop="20dp"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
