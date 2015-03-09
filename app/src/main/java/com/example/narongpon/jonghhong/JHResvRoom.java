@@ -27,7 +27,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -57,13 +56,17 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
     private ButtonRectangle btnResvRoom;
     private String chkTime = "";
     private String sR_ID;
-    private String myUserID, permission;
+    private String myUserID;
+    private String permission;
+    private String mCommand;
+    private String mTranID;
+    private String mResvDate;
+    private String mStTime;
+    private String mEnTime;
+    private String mRoomName;
     private ProgressDialog mProgress;
     private Spinner spinnerRoom;
-    private String setupTask;
     private ArrayList<HashMap<String , String>> MyArrList = new ArrayList<>();
-    //private String mCommand;
-    //private String mTranID;
 
     private DatePickerDialog mDatePicker;
     private TimePickerDialog mTimePicker;
@@ -76,12 +79,27 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootVieW = inflater.inflate(R.layout.jh_resvroom, container , false);
 
-        initWidget();
-        myUserID = getArguments().getString("myID");
-        permission = getArguments().getString("Permission");
+        mCommand = getArguments().getString("mCommand");
 
-        String getRoomURL = "http://jonghhong.uinno.co.th/JHMobile/selectRoom.php";;
-        setupTask = "getRoom";
+        Log.e("command", mCommand);
+
+        if(mCommand.equals("Edit")){
+            myUserID = getArguments().getString("myID");
+            permission = getArguments().getString("Permission");
+            mTranID = getArguments().getString("mTranID");
+            mResvDate = getArguments().getString("resvDate");
+            mStTime = getArguments().getString("stTime");
+            mEnTime = getArguments().getString("enTime");
+            mRoomName = getArguments().getString("rName");
+        }else {
+            myUserID = getArguments().getString("myID");
+            permission = getArguments().getString("Permission");
+        }
+
+        initWidget();
+
+        String getRoomURL = "http://jonghhong.uinno.co.th/JHMobile/selectRoom.php";
+        String setupTask = "getRoom";
 
         final SimpleTask task = new SimpleTask(setupTask);
         task.execute(getRoomURL);
@@ -164,6 +182,12 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
         edtEnTime = (EditText)rootVieW.findViewById(R.id.enTime_edt);
         btnResvRoom = (ButtonRectangle)rootVieW.findViewById(R.id.btn_resvRoom);
         spinnerRoom = (Spinner)rootVieW.findViewById(R.id.spinRoom);
+
+        if(mCommand.equals("Edit")) {
+            edtResvDate.setText(mResvDate);
+            edtStTime.setText(mStTime);
+            edtEnTime.setText(mEnTime);
+        }
     }
 
 
@@ -171,8 +195,8 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
 
         month++;
-        String newDate = "";
-        String newMonth = "";
+        String newDate;
+        String newMonth;
 
         mtrDialog = new MaterialDialog.Builder(getActivity());
         mtrDialog.title("ข้อผิดพลาด");
@@ -190,10 +214,10 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
             newMonth = String.valueOf(month);
         }
 
-        if(chkInputDate(newDate,newMonth,year) == "3date") {
+        if(chkInputDate(newDate,newMonth,year).equals("3date")) {
             mtrDialog.content("กรุณาจองห้องล่วงหน้าอย่างน้อย 3 วัน");
             mtrDialog.show();
-        } else if (chkInputDate(newDate,newMonth,year) != "30date") {
+        } else if (!chkInputDate(newDate,newMonth,year).equals("30date")) {
             mtrDialog.content("กรุณาจองห้องล่วงหน้าไม่เกิน 30 วัน");
             mtrDialog.show();
         } else {
@@ -298,10 +322,8 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
 
             } else {
                 for (int i = 0; i < 30; i++) {
-                    //Log.e("Simple3", String.valueOf(i));
                     c.add(Calendar.DATE, 1);
                     tmpDate = dfm.format(c.getTime());
-                    //Log.e("Simple2", tmpDate);
 
                     if (i < 2 && newResvDate.equals(tmpDate)) {
                         chkDate = "3date";
@@ -414,7 +436,7 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
                     spinnerRoom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            sR_ID = MyArrList.get(position).get("r_id").toString();
+                            sR_ID = MyArrList.get(position).get("r_id");
                             //Log.e("Testtt",sR_ID);
                         }
 

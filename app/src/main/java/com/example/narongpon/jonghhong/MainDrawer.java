@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -119,10 +120,7 @@ public class MainDrawer extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -154,6 +152,7 @@ public class MainDrawer extends ActionBarActivity {
         }else if(position == 2){
             bundle.putString("myID" , myID);
             bundle.putString("Permission" , permission);
+            bundle.putString("mCommand" , "Insert");
             fragment = new JHResvRoom();
             fragment.setArguments(bundle);
         }else if(position == 3){
@@ -176,8 +175,40 @@ public class MainDrawer extends ActionBarActivity {
         }
     }
 
-    public void onBackPressed() {
-        finish();
+    public void editResvRoomFragment(String TranID, String UserID, String isEdit,
+                                     String stTime, String enTime, String rName, String permission, String rDate) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("mTranID" , TranID);
+        bundle.putString("myID" , UserID);
+        bundle.putString("stTime" , stTime);
+        bundle.putString("enTime" , enTime);
+        bundle.putString("rName" , rName);
+        bundle.putString("mCommand" , isEdit);
+        bundle.putString("Permission" , permission);
+        bundle.putString("resvDate" , rDate);
+
+        Fragment fragment = new JHResvRoom();
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.drawer , fragment).commit();
+
+        drawer.closeDrawer();
+    }
+
+    public void showResvHistory(String mUserID, String permission) {
+        Bundle bundle = new Bundle();
+
+        bundle.putString("myID" , mUserID);
+        bundle.putString("Permission" , permission);
+        Fragment fragment = new JHResvHistory();
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.drawer , fragment).commit();
+
+        drawer.closeDrawer();
     }
 
 }
