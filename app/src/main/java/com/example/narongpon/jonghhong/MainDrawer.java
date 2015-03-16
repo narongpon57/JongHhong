@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +22,7 @@ public class MainDrawer extends ActionBarActivity {
     private Toolbar toolbar;
     private DrawerFrameLayout drawer;
     private ActionBarDrawerToggle drawerToggle;
-    private Drawable checkRoom_ic, editProfile_ic, resvHistory_ic, setting_ic, resvRoom_ic, logout_ic;
+    private Drawable checkRoom_ic, editProfile_ic, resvHistory_ic, setting_ic, resvRoom_ic, logout_ic, notification_ic;
 
     private String myName, myPermission, myID, myTel, myEmail, permission;
 
@@ -89,6 +88,12 @@ public class MainDrawer extends ActionBarActivity {
         drawer.addItem(new DrawerItem()
                 .setImage(resvHistory_ic)
                 .setTextPrimary("ประวัติจองห้องประชุม"));
+
+        notification_ic = getResources().getDrawable(R.drawable.ic_notification);
+        drawer.addItem(new DrawerItem()
+                .setImage(notification_ic)
+                .setTextPrimary("รายการแจ้งเตือน"));
+
 
         drawer.addDivider();
 
@@ -162,8 +167,8 @@ public class MainDrawer extends ActionBarActivity {
             fragment.setArguments(bundle);
         }else if(position == 4){
 
-        }else if(position == 6) {
-            Intent i = new Intent(getApplicationContext(),MainActivity.class);
+        }else if(position == 7) {
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         }
 
@@ -176,7 +181,7 @@ public class MainDrawer extends ActionBarActivity {
     }
 
     public void editResvRoomFragment(String TranID, String UserID, String isEdit,
-                                     String stTime, String enTime, String rName, String permission, String rDate) {
+                                     String stTime, String enTime, String rName, String permission, String rDate, String rID) {
 
         Bundle bundle = new Bundle();
         bundle.putString("mTranID" , TranID);
@@ -187,6 +192,7 @@ public class MainDrawer extends ActionBarActivity {
         bundle.putString("mCommand" , isEdit);
         bundle.putString("Permission" , permission);
         bundle.putString("resvDate" , rDate);
+        bundle.putString("rID", rID);
 
         Fragment fragment = new JHResvRoom();
         fragment.setArguments(bundle);

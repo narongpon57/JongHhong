@@ -9,11 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
-import android.widget.Toast;
+
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
@@ -52,10 +49,11 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
 
     View rootVieW;
 
-    private EditText edtResvDate, edtStTime, edtEnTime;
+    private EditText edtResvDate, edtStTime, edtEnTime, edtRoom;
     private ButtonRectangle btnResvRoom;
     private String chkTime = "";
-    private String sR_ID;
+    private String sR_ID = "";
+    private String mRoomID;
     private String myUserID;
     private String permission;
     private String mCommand;
@@ -65,14 +63,15 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
     private String mEnTime;
     private String mRoomName;
     private ProgressDialog mProgress;
-    private Spinner spinnerRoom;
     private ArrayList<HashMap<String , String>> MyArrList = new ArrayList<>();
+    private String[] roomName;
 
     private DatePickerDialog mDatePicker;
     private TimePickerDialog mTimePicker;
     private Calendar mCalendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Bangkok"));
 
     MaterialDialog.Builder mtrDialog;
+    MaterialDialog mtr;
 
 
     @Override
@@ -91,18 +90,13 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
             mStTime = getArguments().getString("stTime");
             mEnTime = getArguments().getString("enTime");
             mRoomName = getArguments().getString("rName");
+            mRoomID = getArguments().getString("rID");
         }else {
             myUserID = getArguments().getString("myID");
             permission = getArguments().getString("Permission");
         }
 
         initWidget();
-
-        String getRoomURL = "http://jonghhong.uinno.co.th/JHMobile/selectRoom.php";
-        String setupTask = "getRoom";
-
-        final SimpleTask task = new SimpleTask(setupTask);
-        task.execute(getRoomURL);
 
         mDatePicker = DatePickerDialog.newInstance(
                 this,
@@ -142,6 +136,17 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
             }
         });
 
+        edtRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String getRoomURL = "http://jonghhong.uinno.co.th/JHMobile/selectRoom.php";
+                String setupTask = "getRoom";
+
+                final SimpleTask task = new SimpleTask(setupTask);
+                task.execute(getRoomURL);
+            }
+        });
+
         btnResvRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,8 +157,9 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
                 String txtResvDate = edtResvDate.getText().toString();
                 String txtStTime = edtStTime.getText().toString();
                 String txtEnTime = edtEnTime.getText().toString();
+                String txtRoom = edtRoom.getText().toString();
 
-                if (txtResvDate.equals("") || txtStTime.equals("") || txtEnTime.equals("")) {
+                if (txtResvDate.equals("") || txtStTime.equals("") || txtEnTime.equals("") || txtRoom.equals("")) {
                     mtrDialog.content("กรุณากรอกข้อมูลให้ครบ");
                     mtrDialog.show();
                 } else if (checkResvTime()) {
@@ -163,7 +169,14 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
                     edtStTime.setText("");
                     edtEnTime.setText("");
                 } else{
-                    String resultServer = "http://jonghhong.uinno.co.th/JHMobile/insertDB.php";
+
+                    String resultServer;
+
+                    if(mCommand.equals("Edit")){
+                        resultServer = "http://jonghhong.uinno.co.th/JHMobile/editRoom.php";
+                    }else {
+                        resultServer = "http://jonghhong.uinno.co.th/JHMobile/resvRoom.php";
+                    }
                     String setupTask = "resvRoom";
 
                     SimpleTask simpleTask = new SimpleTask(setupTask);
@@ -181,12 +194,13 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
         edtStTime = (EditText)rootVieW.findViewById(R.id.stTime_edt);
         edtEnTime = (EditText)rootVieW.findViewById(R.id.enTime_edt);
         btnResvRoom = (ButtonRectangle)rootVieW.findViewById(R.id.btn_resvRoom);
-        spinnerRoom = (Spinner)rootVieW.findViewById(R.id.spinRoom);
+        edtRoom = (EditText)rootVieW.findViewById(R.id.room_edt);
 
         if(mCommand.equals("Edit")) {
             edtResvDate.setText(mResvDate);
             edtStTime.setText(mStTime);
             edtEnTime.setText(mEnTime);
+            edtRoom.setText(mRoomName);
         }
     }
 
@@ -302,10 +316,8 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
     public String chkInputDate(String date , String month , int year){
 
         String chkDate = "";
-        String strDate = date;
-        String strMonth = month;
         String strYear = String.valueOf(year);
-        String newResvDate = strDate + "/" + strMonth + "/" + strYear;
+        String newResvDate = date + "/" + month + "/" + strYear;
         SimpleDateFormat dfm = new SimpleDateFormat("dd/MM/yyyy");
         dfm.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
         Calendar c = Calendar.getInstance();
@@ -354,7 +366,6 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
         protected void onPreExecute() {
             if(chk.equals("resvRoom")) {
                 mProgress = new ProgressDialog(getActivity());
-                //mProgress.setTitle("กำลังโหลด...");
                 mProgress.setMessage("กำลังบันทึกข้อมูล..");
                 mProgress.setIndeterminate(false);
                 mProgress.setCancelable(false);
@@ -368,10 +379,12 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
             HttpClient client = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(urls[0]);
 
-            try{
-                if(chk.equals("getRoom")) {
+            if(sR_ID.equals("")){
+                sR_ID = mRoomID;
+            }
 
-                } else {
+            try{
+                if(chk.equals("resvRoom")) {
                     List<NameValuePair> params = new ArrayList<>();
                     params.add(new BasicNameValuePair("id" , myUserID));
                     params.add(new BasicNameValuePair("permission" , permission));
@@ -379,9 +392,12 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
                     params.add(new BasicNameValuePair("resvDate" , edtResvDate.getText().toString()));
                     params.add(new BasicNameValuePair("start" , edtStTime.getText().toString()));
                     params.add(new BasicNameValuePair("end" , edtEnTime.getText().toString()));
+                    if(mCommand.equals("Edit")){
+                        params.add(new BasicNameValuePair("tranID", mTranID));
+                    }
+
                     httpPost.setEntity(new UrlEncodedFormEntity(params));
                 }
-
                 HttpResponse response = client.execute(httpPost);
                 StatusLine statusLine = response.getStatusLine();
                 int statusCode = statusLine.getStatusCode();
@@ -418,41 +434,35 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
         private void getRoomName(String str) {
             try {
                 JSONArray data = new JSONArray(str);
+                roomName = new String[data.length()];
 
                 HashMap<String, String> map;
 
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject c = data.getJSONObject(i);
 
+                    roomName[i] = c.getString("r_name");
                     map = new HashMap<>();
                     map.put("r_id", c.getString("r_id"));
-                    map.put("r_name", c.getString("r_name"));
                     MyArrList.add(map);
-
-                    SimpleAdapter sAdapter;
-                    sAdapter = new SimpleAdapter(getActivity() , MyArrList , R.layout.jh_room_col , new String[] {"r_name"} , new int[] {R.id.ColR_Name});
-                    spinnerRoom.setAdapter(sAdapter);
-
-                    spinnerRoom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            sR_ID = MyArrList.get(position).get("r_id");
-                            //Log.e("Testtt",sR_ID);
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-                            Toast.makeText(getActivity(), "Nothing Selected", Toast.LENGTH_SHORT).show();
-                        }
-                    });
                 }
             }catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            mtr = new MaterialDialog.Builder(getActivity())
+                    .items(roomName)
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
+                            sR_ID = MyArrList.get(i).get("r_id");
+                            edtRoom.setText(charSequence);
+                        }
+                    })
+                    .show();
         }
 
         private void resvRoom(String str) {
-
 
             mtrDialog = new MaterialDialog.Builder(getActivity());
             mtrDialog.title("ข้อผิดพลาด");
@@ -479,6 +489,10 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
                 edtResvDate.setText("");
                 edtStTime.setText("");
                 edtEnTime.setText("");
+                edtRoom.setText("");
+
+                MainDrawer mainActivity = (MainDrawer) getActivity();
+                mainActivity.showResvHistory(myUserID,permission);
             }
         }
     }

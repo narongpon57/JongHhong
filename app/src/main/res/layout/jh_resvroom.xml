@@ -19,10 +19,11 @@
             android:text="@string/room"
             android:textSize="14sp"/>
 
-        <Spinner
-            android:layout_width="wrap_content"
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/room_edt"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spinRoom" />
+            android:focusable="false"/>
 
         <TextView
             android:layout_width="wrap_content"

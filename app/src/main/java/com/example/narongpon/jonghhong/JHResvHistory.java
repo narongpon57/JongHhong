@@ -278,10 +278,11 @@ public class JHResvHistory extends Fragment {
                                 String timeStart = MyArrList.get(position).get("ResvStTime");
                                 String timeEnd = MyArrList.get(position).get("ResvEnTime");
                                 String rName = MyArrList.get(position).get("RoomName");
+                                String rID = MyArrList.get(position).get("RoomID");
 
                                 MainDrawer mainActivity = (MainDrawer) getActivity();
                                 mainActivity.editResvRoomFragment(strTransactionID, myUserID, txt,
-                                        timeStart, timeEnd, rName, strPermission, strDate);
+                                        timeStart, timeEnd, rName, strPermission, strDate, rID);
                             }
                         }
 

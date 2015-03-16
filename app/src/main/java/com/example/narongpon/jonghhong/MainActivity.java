@@ -164,12 +164,17 @@ public class MainActivity extends ActionBarActivity {
             permission = jsonObject.getString("per");
 
             nameUser = firstName + " " + lastName;
-            if(permission.equals("1")) {
-                namePermission = "นักศึกษา";
-            } else if (permission.equals("2")) {
-                namePermission = "อาจารย์";
-            } else if (permission.equals("3")) {
-                namePermission = "พนักงาน";
+
+            switch (permission) {
+                case "1":
+                    namePermission = "นักศึกษา";
+                    break;
+                case "2":
+                    namePermission = "อาจารย์";
+                    break;
+                case "3":
+                    namePermission = "เจ้าหน้าที่";
+                    break;
             }
         }catch (JSONException e){
             e.printStackTrace();
