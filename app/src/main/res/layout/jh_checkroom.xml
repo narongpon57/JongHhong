@@ -3,13 +3,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CheckRoom"
-        android:textSize="50sp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="100dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:paddingBottom="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="เลือกห้องประชุม"
+            android:textSize="14sp"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/room_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="เลือกวันที่ต้องการค้นหา"
+            android:textSize="14sp"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/date_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"/>
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ค้นหา"
+            android:id="@+id/btn_search"
+            android:background="#827717"/>
+        </LinearLayout>
+
 
 
 </RelativeLayout>

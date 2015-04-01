@@ -246,7 +246,6 @@ public class JHResvHistory extends Fragment {
             card.setTitle(strResvDate);
             card.setDescription(strRoomName + "\n" + strTime + "\n" + strStatus);
 
-
             ((BasicButtonsCard)card).setLeftButtonText("ย้าย");
             ((BasicButtonsCard)card).setRightButtonText("ยกเลิก");
 

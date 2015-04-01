@@ -22,7 +22,7 @@ public class MainDrawer extends ActionBarActivity {
     private Toolbar toolbar;
     private DrawerFrameLayout drawer;
     private ActionBarDrawerToggle drawerToggle;
-    private Drawable checkRoom_ic, editProfile_ic, resvHistory_ic, setting_ic, resvRoom_ic, logout_ic, notification_ic;
+    private Drawable checkRoom_ic, editProfile_ic, resvHistory_ic, setting_ic, resvRoom_ic, logout_ic;
 
     private String myName, myPermission, myID, myTel, myEmail, permission;
 
@@ -30,13 +30,17 @@ public class MainDrawer extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jh_drawer);
 
-        myName = getIntent().getExtras().getString("myName");
-        myPermission = getIntent().getExtras().getString("myPermission");
-        myID = getIntent().getExtras().getString("myID");
-        myTel = getIntent().getExtras().getString("myTel");
-        myEmail = getIntent().getExtras().getString("myEmail");
-        permission = getIntent().getExtras().getString("Permission");
+        Bundle bundle;
+        bundle = getIntent().getExtras();
 
+        if(bundle != null) {
+            myName = getIntent().getExtras().getString("myName");
+            myPermission = getIntent().getExtras().getString("myPermission");
+            myID = getIntent().getExtras().getString("myID");
+            myTel = getIntent().getExtras().getString("myTel");
+            myEmail = getIntent().getExtras().getString("myEmail");
+            permission = getIntent().getExtras().getString("Permission");
+        }
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         drawer = (DrawerFrameLayout)findViewById(R.id.drawer);
 
@@ -89,12 +93,6 @@ public class MainDrawer extends ActionBarActivity {
                 .setImage(resvHistory_ic)
                 .setTextPrimary("ประวัติจองห้องประชุม"));
 
-        notification_ic = getResources().getDrawable(R.drawable.ic_notification);
-        drawer.addItem(new DrawerItem()
-                .setImage(notification_ic)
-                .setTextPrimary("รายการแจ้งเตือน"));
-
-
         drawer.addDivider();
 
         setting_ic = getResources().getDrawable(R.drawable.settings_ic);
@@ -143,7 +141,8 @@ public class MainDrawer extends ActionBarActivity {
     public void selectFragment(int position) {
 
         Fragment fragment = null;
-        Bundle bundle = new Bundle();
+        Bundle bundle;
+        bundle = new Bundle();
         if(position == 0) {
             fragment = new JHCheckRoom();
         }else if(position == 1){
@@ -215,6 +214,11 @@ public class MainDrawer extends ActionBarActivity {
         fragmentManager.beginTransaction().replace(R.id.drawer , fragment).commit();
 
         drawer.closeDrawer();
+    }
+
+    public void showCheckRoom() {
+        Intent i = new Intent(getApplicationContext(),JHShowCheckRoom.class);
+        startActivity(i);
     }
 
 }
