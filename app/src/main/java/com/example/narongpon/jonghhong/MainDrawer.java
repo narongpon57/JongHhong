@@ -216,8 +216,10 @@ public class MainDrawer extends ActionBarActivity {
         drawer.closeDrawer();
     }
 
-    public void showCheckRoom() {
+    public void showCheckRoom(String roomID, String resvDate) {
         Intent i = new Intent(getApplicationContext(),JHShowCheckRoom.class);
+        i.putExtra("EXTRA_roomID",roomID);
+        i.putExtra("EXTRA_resvDate",resvDate);
         startActivity(i);
     }
 

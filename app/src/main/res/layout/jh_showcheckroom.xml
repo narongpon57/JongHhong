@@ -14,15 +14,17 @@
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:contentInsetStart="72dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="100dp"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:paddingBottom="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_room"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
 
+        <com.dexafree.materialList.view.MaterialListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="60dp"
+            android:id="@+id/listRoom"/>
 
-    </LinearLayout>
 </RelativeLayout>

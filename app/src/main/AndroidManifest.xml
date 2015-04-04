@@ -19,11 +19,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainDrawer" android:theme="@style/AppTheme" android:launchMode="singleTop"/>
+        <activity android:name=".MainDrawer" android:theme="@style/AppTheme"/>
         <activity android:name=".JHFirstLogin" android:theme="@style/AppTheme"/>
-        <activity android:name=".JHShowCheckRoom"
-                  android:theme="@style/AppTheme"
-                  android:parentActivityName=".MainDrawer">
+        <activity android:name=".JHShowCheckRoom" android:theme="@style/AppTheme">
         </activity>
     </application>
 
