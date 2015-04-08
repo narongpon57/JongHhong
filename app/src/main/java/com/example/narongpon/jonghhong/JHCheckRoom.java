@@ -114,9 +114,16 @@ public class JHCheckRoom extends Fragment implements DatePickerDialog.OnDateSetL
 
         month++;
         String newMonth;
+        String newDate;
+
+        if(day >= 1 && day <= 9) {
+            newDate = "0" + String.valueOf(day);
+        } else {
+            newDate = String.valueOf(day);
+        }
 
         newMonth = "0" + String.valueOf(month);
-        edt_date.setText(day + "/" + newMonth + "/" + year);
+        edt_date.setText(newDate + "/" + newMonth + "/" + year);
     }
 
     private class SimpleTask extends AsyncTask<String,Void,String> {

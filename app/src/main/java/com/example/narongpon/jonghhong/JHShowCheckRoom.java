@@ -1,5 +1,6 @@
 package com.example.narongpon.jonghhong;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -40,9 +41,7 @@ public class JHShowCheckRoom extends ActionBarActivity {
 
     private Toolbar toolbar;
     private String resvDate,roomID;
-    private ArrayList<HashMap<String, String>> MyArrList = new ArrayList<>();
     private String strResvDate, strTime, strRoomName;
-    HashMap<String, String> map;
     IMaterialView mListView;
 
 
@@ -67,10 +66,10 @@ public class JHShowCheckRoom extends ActionBarActivity {
         toolbar = (Toolbar)findViewById(R.id.toolbar_showRoom);
         mListView = (IMaterialView)findViewById(R.id.listRoom);
 
-        mListView.setCardAnimation(MaterialListView.CardAnimation.SWING_BOTTOM_IN);
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mListView.setCardAnimation(MaterialListView.CardAnimation.SWING_BOTTOM_IN);
 
     }
 
@@ -83,11 +82,9 @@ public class JHShowCheckRoom extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
+
                 finish();
-        }
+
         return super.onOptionsItemSelected(item);
 
     }
@@ -153,8 +150,6 @@ public class JHShowCheckRoom extends ActionBarActivity {
                         strTime = "เวลาที่จอง : " + c.getString("resv_start_time") + " - " + c.getString("resv_end_time");
                         strRoomName = c.getString("r_name");
 
-                        Log.e("ResvDate",strResvDate);
-                        Log.e("strTime", strTime);
                         Card card = getCard();
                         mListView.add(card);
                     }
@@ -172,6 +167,7 @@ public class JHShowCheckRoom extends ActionBarActivity {
 
             SimpleCard card;
             card = new SmallImageCard(JHShowCheckRoom.this);
+            card.setBackgroundColor(Color.parseColor("#F0F4C3"));
             card.setTitle(strResvDate);
             card.setDescription(strRoomName + "\n" + strTime);
 

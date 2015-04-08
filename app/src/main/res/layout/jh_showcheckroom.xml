@@ -11,20 +11,18 @@
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:contentInsetStart="72dp"/>
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-        <TextView
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_room"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true" />
 
-        <com.dexafree.materialList.view.MaterialListView
+    <com.dexafree.materialList.view.MaterialListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="60dp"
-            android:id="@+id/listRoom"/>
-
+            android:id="@+id/listRoom"
+            android:layout_below="@+id/toolbar_showRoom"/>
 </RelativeLayout>

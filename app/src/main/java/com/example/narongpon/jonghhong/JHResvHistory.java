@@ -2,6 +2,7 @@ package com.example.narongpon.jonghhong;
 
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -243,6 +244,7 @@ public class JHResvHistory extends Fragment {
             SimpleCard card;
 
             card = new BasicButtonsCard(getActivity());
+            card.setBackgroundColor(Color.parseColor("#F0F4C3"));
             card.setTitle(strResvDate);
             card.setDescription(strRoomName + "\n" + strTime + "\n" + strStatus);
 
