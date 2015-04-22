@@ -21,8 +21,9 @@
 
         <activity android:name=".MainDrawer" android:theme="@style/AppTheme"/>
         <activity android:name=".JHFirstLogin" android:theme="@style/AppTheme"/>
-        <activity android:name=".JHShowCheckRoom" android:theme="@style/AppTheme">
-        </activity>
+        <activity android:name=".JHShowCheckRoom" android:theme="@style/AppTheme"/>
+        <activity android:name=".JHSetting" android:theme="@style/AppTheme"/>
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

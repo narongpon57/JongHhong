@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +42,7 @@ public class MainDrawer extends ActionBarActivity {
             myEmail = getIntent().getExtras().getString("myEmail");
             permission = getIntent().getExtras().getString("Permission");
         }
+
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         drawer = (DrawerFrameLayout)findViewById(R.id.drawer);
 
@@ -93,6 +95,12 @@ public class MainDrawer extends ActionBarActivity {
                 .setImage(resvHistory_ic)
                 .setTextPrimary("ประวัติจองห้องประชุม"));
 
+        if(permission.equals("3")) {
+            Drawable notification_ic = getResources().getDrawable(R.drawable.ic_notification);
+            drawer.addItem(new DrawerItem()
+                    .setImage(notification_ic)
+                    .setTextPrimary("รายการแจ้งเตือน"));
+        }
         drawer.addDivider();
 
         setting_ic = getResources().getDrawable(R.drawable.settings_ic);
@@ -143,6 +151,8 @@ public class MainDrawer extends ActionBarActivity {
         Fragment fragment = null;
         Bundle bundle;
         bundle = new Bundle();
+        //Log.e("Position",String.valueOf(position));
+        //int count = 0;
         if(position == 0) {
             fragment = new JHCheckRoom();
         }else if(position == 1){
@@ -164,11 +174,21 @@ public class MainDrawer extends ActionBarActivity {
             bundle.putString("Permission" , permission);
             fragment = new JHResvHistory();
             fragment.setArguments(bundle);
-        }else if(position == 4){
-
-        }else if(position == 7) {
+        }else if(position == 5 && !permission.equals("3")){
+            Intent i = new Intent(getApplicationContext(),JHSetting.class);
+            startActivity(i);
+        }else if(position == 6 && !permission.equals("3")) {
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
+        }else {
+            if(position == 4) {
+                fragment = new JHNotification();
+            }else if(position == 6) {
+
+            }else if(position == 7) {
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
+            }
         }
 
         if(fragment != null) {

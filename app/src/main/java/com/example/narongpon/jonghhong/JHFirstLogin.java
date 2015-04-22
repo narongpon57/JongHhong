@@ -36,17 +36,14 @@ import java.util.List;
 
 public class JHFirstLogin extends ActionBarActivity {
 
-    private String myName = "";
     private String myPermission = "";
     private String myID = "";
     private String permission = "";
-    private String firstName = "";
-    private String lastName = "";
+    private String myName = "";
     private String myUsername = "";
 
     private EditText edtTel, edtEmail;
     private ButtonRectangle btnFirstLogin;
-    private Toolbar toolbar;
 
     MaterialDialog.Builder materialDialog;
     ProgressDialog mProgress;
@@ -60,8 +57,7 @@ public class JHFirstLogin extends ActionBarActivity {
         myPermission = getIntent().getExtras().getString("myPermission");
         myID = getIntent().getExtras().getString("myID");
         permission = getIntent().getExtras().getString("Permission");
-        firstName = getIntent().getExtras().getString("myFirstName");
-        lastName = getIntent().getExtras().getString("myLastName");
+        myName = getIntent().getExtras().getString("myName");
         myUsername = getIntent().getExtras().getString("myUsername");
 
         initWidget();
@@ -123,7 +119,7 @@ public class JHFirstLogin extends ActionBarActivity {
 
     private void initWidget(){
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar_firstLogin);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_firstLogin);
         btnFirstLogin = (ButtonRectangle)findViewById(R.id.btn_firstLogin);
         edtTel = (EditText)findViewById(R.id.edt_tel);
         edtEmail = (EditText)findViewById(R.id.edt_email);
@@ -186,12 +182,10 @@ public class JHFirstLogin extends ActionBarActivity {
         private void updateUser(String str){
             JSONObject c;
             String strStatusID = "";
-            String strError = "";
 
             try {
                 c = new JSONObject(str);
                 strStatusID = c.getString("StatusID");
-                strError = c.getString("Error");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -206,8 +200,6 @@ public class JHFirstLogin extends ActionBarActivity {
                 SuperActivityToast.create(JHFirstLogin.this,"บันทึกข้อมูล เรียบร้อยแล้ว", SuperToast.Duration.MEDIUM).show();
                 Intent i = new Intent(getApplicationContext(),MainDrawer.class);
                 i.putExtra("myID" , myID);
-                i.putExtra("myFirstName" , firstName);
-                i.putExtra("myLastName" , lastName);
                 i.putExtra("myName", myName);
                 i.putExtra("myPermission", myPermission);
                 i.putExtra("Permission" , permission);

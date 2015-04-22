@@ -143,13 +143,11 @@ public class MainActivity extends ActionBarActivity {
         String strFound = "0";
         String strError = "ไม่สามารถเชื่อมต่อ server ได้";
         String userID = "";
-        String firstName = "";
-        String lastName = "";
+        String nameUser = "";
         String permission = "";
         String tel = "";
         String email = "";
         String namePermission = "";
-        String nameUser = "";
 
 
         try{
@@ -157,13 +155,10 @@ public class MainActivity extends ActionBarActivity {
             strFound = jsonObject.getString("Found");
             strError = jsonObject.getString("Error");
             userID = jsonObject.getString("u_id");
-            firstName = jsonObject.getString("fname");
-            lastName = jsonObject.getString("lname");
+            nameUser = jsonObject.getString("name");
             tel = jsonObject.getString("tel");
             email = jsonObject.getString("email");
             permission = jsonObject.getString("per");
-
-            nameUser = firstName + " " + lastName;
 
             switch (permission) {
                 case "1":
@@ -202,9 +197,7 @@ public class MainActivity extends ActionBarActivity {
             Log.e("test","test");
             Intent i = new Intent(getApplicationContext(),JHFirstLogin.class);
             i.putExtra("myID" , userID);
-            i.putExtra("myFirstName" , firstName);
-            i.putExtra("myLastName" , lastName);
-            i.putExtra("myName", nameUser);
+            i.putExtra("myName" , nameUser);
             i.putExtra("myPermission", namePermission);
             i.putExtra("Permission" , permission);
             i.putExtra("myUsername" , edtUser.getText().toString());
@@ -214,8 +207,6 @@ public class MainActivity extends ActionBarActivity {
 
             Intent i = new Intent(getApplicationContext(),MainDrawer.class);
             i.putExtra("myID" , userID);
-            i.putExtra("myFirstName" , firstName);
-            i.putExtra("myLastName" , lastName);
             i.putExtra("myName", nameUser);
             i.putExtra("myPermission", namePermission);
             i.putExtra("Permission" , permission);

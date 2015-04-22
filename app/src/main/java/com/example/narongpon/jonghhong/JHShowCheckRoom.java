@@ -81,12 +81,8 @@ public class JHShowCheckRoom extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
-                finish();
-
+        finish();
         return super.onOptionsItemSelected(item);
-
     }
 
     private class SimpleTask extends AsyncTask<String,Void,String> {
