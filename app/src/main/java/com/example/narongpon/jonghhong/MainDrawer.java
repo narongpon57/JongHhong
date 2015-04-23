@@ -184,7 +184,8 @@ public class MainDrawer extends ActionBarActivity {
             if(position == 4) {
                 fragment = new JHNotification();
             }else if(position == 6) {
-
+                Intent i = new Intent(getApplicationContext(),JHSetting.class);
+                startActivity(i);
             }else if(position == 7) {
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
