@@ -1,0 +1,2 @@
+configurations.create("default")
+artifacts.add("default", file('App42_ANDROID_SDK_3.0.1.jar'))

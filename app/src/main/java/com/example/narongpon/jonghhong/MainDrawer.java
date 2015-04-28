@@ -182,7 +182,9 @@ public class MainDrawer extends ActionBarActivity {
             startActivity(i);
         }else {
             if(position == 4) {
+                bundle.putString("myID", myID);
                 fragment = new JHNotification();
+                fragment.setArguments(bundle);
             }else if(position == 6) {
                 Intent i = new Intent(getApplicationContext(),JHSetting.class);
                 startActivity(i);
@@ -240,8 +242,22 @@ public class MainDrawer extends ActionBarActivity {
     public void showCheckRoom(String roomID, String resvDate) {
         Intent i = new Intent(getApplicationContext(),JHShowCheckRoom.class);
         i.putExtra("EXTRA_roomID",roomID);
-        i.putExtra("EXTRA_resvDate",resvDate);
+        i.putExtra("EXTRA_resvDate", resvDate);
         startActivity(i);
     }
+
+    public void showNotification(String staffID) {
+        Bundle bundle = new Bundle();
+
+        bundle.putString("myID" , staffID);
+        Fragment fragment = new JHNotification();
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.drawer , fragment).commit();
+
+        drawer.closeDrawer();
+    }
+
 
 }

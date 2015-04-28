@@ -1,5 +1,6 @@
 package com.example.narongpon.jonghhong;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -39,9 +40,9 @@ public class JHSetting extends ActionBarActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.jh_preference);
-            /*Toolbar toolbar = (Toolbar)getActivity().findViewById(R.id.toolbar_setting);
-            ((ActionBarActivity)getActivity()).setSupportActionBar(toolbar);
-            ((ActionBarActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+
+            //SharedPreferences sp;
+
         }
     }
 
