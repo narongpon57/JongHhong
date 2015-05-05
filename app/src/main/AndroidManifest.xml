@@ -2,7 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.narongpon.jonghhong" >
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="com.example.narongpon.jonghhong.permission.C2D_MESSAGE"/>
+
+    <permission android:name="com.example.narongpon.jonghhong.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
 
     <application
         android:allowBackup="true"
@@ -24,8 +33,20 @@
         <activity android:name=".JHShowCheckRoom" android:theme="@style/AppTheme"/>
         <activity android:name=".JHSetting" android:theme="@style/AppTheme"/>
 
+        <receiver
+            android:name=".JHReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.not.gcnexample" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".JHService"/>
+
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

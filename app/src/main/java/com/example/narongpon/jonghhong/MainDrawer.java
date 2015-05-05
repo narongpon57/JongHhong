@@ -1,6 +1,9 @@
 package com.example.narongpon.jonghhong;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.content.res.Configuration;
@@ -13,19 +16,41 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.heinrichreimersoftware.materialdrawer.DrawerFrameLayout;
 import com.heinrichreimersoftware.materialdrawer.structure.DrawerItem;
 import com.heinrichreimersoftware.materialdrawer.structure.DrawerProfile;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainDrawer extends ActionBarActivity {
-    private Toolbar toolbar;
     private DrawerFrameLayout drawer;
     private ActionBarDrawerToggle drawerToggle;
-    private Drawable checkRoom_ic, editProfile_ic, resvHistory_ic, setting_ic, resvRoom_ic, logout_ic;
 
     private String myName, myPermission, myID, myTel, myEmail, permission;
+    private String regID;
+    private static final String REG_ID = "regID";
+    private static final String TAG = "register";
+    GoogleCloudMessaging gcm;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +68,7 @@ public class MainDrawer extends ActionBarActivity {
             permission = getIntent().getExtras().getString("Permission");
         }
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerFrameLayout)findViewById(R.id.drawer);
 
         drawerToggle = new ActionBarDrawerToggle(
@@ -67,30 +92,32 @@ public class MainDrawer extends ActionBarActivity {
         drawer.closeDrawer();
 
         Drawable background = getResources().getDrawable(R.drawable.bg2);
-        background.setAlpha(100);
+        if (background != null) {
+            background.setAlpha(100);
+        }
         drawer.setProfile(new DrawerProfile()
                 .setBackground(background)
                 .setName(myName)
                 .setDescription(myPermission));
 
-        checkRoom_ic = getResources().getDrawable(R.drawable.calendar_ic);
+        Drawable checkRoom_ic = getResources().getDrawable(R.drawable.calendar_ic);
         drawer.addItem(new DrawerItem()
                 .setImage(checkRoom_ic)
                 .setTextPrimary("ตรวจสอบเวลาห้องประชุม"));
 
 
-        editProfile_ic = getResources().getDrawable(R.drawable.user_ic);
+        Drawable editProfile_ic = getResources().getDrawable(R.drawable.user_ic);
         drawer.addItem(new DrawerItem()
                 .setImage(editProfile_ic)
                 .setTextPrimary("แก้ไขข้อมูลส่วนตัว"));
 
 
-        resvRoom_ic = getResources().getDrawable(R.drawable.reservation_ic);
+        Drawable resvRoom_ic = getResources().getDrawable(R.drawable.reservation_ic);
         drawer.addItem(new DrawerItem()
                 .setImage(resvRoom_ic)
                 .setTextPrimary("จองห้องประชุม"));
 
-        resvHistory_ic = getResources().getDrawable(R.drawable.history_ic);
+        Drawable resvHistory_ic = getResources().getDrawable(R.drawable.history_ic);
         drawer.addItem(new DrawerItem()
                 .setImage(resvHistory_ic)
                 .setTextPrimary("ประวัติจองห้องประชุม"));
@@ -103,12 +130,17 @@ public class MainDrawer extends ActionBarActivity {
         }
         drawer.addDivider();
 
-        setting_ic = getResources().getDrawable(R.drawable.settings_ic);
+        /*Drawable password_ic = getResources().getDrawable(R.drawable.ic_lock);
+        drawer.addItem(new DrawerItem()
+                .setImage(password_ic)
+                .setTextPrimary("ตั้งค่า"));*/
+
+        Drawable setting_ic = getResources().getDrawable(R.drawable.settings_ic);
         drawer.addItem(new DrawerItem()
                 .setImage(setting_ic)
                 .setTextPrimary("ตั้งค่า"));
 
-        logout_ic = getResources().getDrawable(R.drawable.logout_ic);
+        Drawable logout_ic = getResources().getDrawable(R.drawable.logout_ic);
         drawer.addItem(new DrawerItem()
                 .setImage(logout_ic)
                 .setTextPrimary("ออกจากระบบ"));
@@ -121,6 +153,9 @@ public class MainDrawer extends ActionBarActivity {
         });
 
         selectFragment(0);
+
+        regID = registerGCM();
+        new SendRegID().execute();
     }
 
     @Override
@@ -151,8 +186,6 @@ public class MainDrawer extends ActionBarActivity {
         Fragment fragment = null;
         Bundle bundle;
         bundle = new Bundle();
-        //Log.e("Position",String.valueOf(position));
-        //int count = 0;
         if(position == 0) {
             fragment = new JHCheckRoom();
         }else if(position == 1){
@@ -259,5 +292,105 @@ public class MainDrawer extends ActionBarActivity {
         drawer.closeDrawer();
     }
 
+    public String registerGCM() {
 
+        gcm = GoogleCloudMessaging.getInstance(this);
+        regID = getRegistrationID();
+        Log.e("regID", regID);
+        if(regID.isEmpty()) {
+            new GcmRegistration().execute();
+        } else {
+            Log.e(TAG,"get already");
+        }
+
+
+        return regID;
+    }
+
+    public String getRegistrationID() {
+
+        String registrationID;
+        final SharedPreferences prefs = getSharedPreferences("GCMRegID", Context.MODE_PRIVATE);
+        registrationID = prefs.getString(REG_ID,"");
+        if(registrationID != null && registrationID.isEmpty()) {
+            Log.e("getRegID","RegistrationID Not Found");
+        }
+        return registrationID;
+    }
+
+    public class GcmRegistration extends AsyncTask<Void,Void,String> {
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String msg;
+            try{
+                if(gcm == null) {
+                    gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+                }
+                regID = gcm.register(JHConfig.GOOGLE_PROJECT_ID);
+                msg = "Device registerd, regID = " +regID;
+                storeRegistrationID(regID);
+                Log.e("register","reg");
+            } catch (IOException e) {
+                msg = e.getMessage();
+                Log.e("RegisterGCM", "Error: " + msg);
+            }
+            return msg;
+        }
+
+        @Override
+        protected void onPostExecute(String msg) {
+            Log.e(TAG,msg);
+        }
+    }
+
+    private void storeRegistrationID(String regID) {
+        final SharedPreferences prefs = getSharedPreferences("GCMRegID", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Log.e("Saving RegID..." , regID);
+        editor.putString(REG_ID, regID);
+        editor.apply();
+    }
+
+    public class SendRegID extends AsyncTask<Void,Void,String> {
+
+        @Override
+        protected String doInBackground(Void... urls) {
+            StringBuilder str = new StringBuilder();
+            HttpClient client = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(JHConfig.SAVE_REGID_URL);
+            List<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("regID" , regID));
+            params.add(new BasicNameValuePair("userID" , myID));
+
+            try {
+                httpPost.setEntity(new UrlEncodedFormEntity(params));
+                HttpResponse response = client.execute(httpPost);
+                StatusLine statusLine = response.getStatusLine();
+                int statusCode = statusLine.getStatusCode();
+                Log.e("StatusLine",String.valueOf(statusCode));
+                if (statusCode == 200) {
+                    HttpEntity entity = response.getEntity();
+                    InputStream content = entity.getContent();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        str.append(line);
+                    }
+                }else {
+                    Log.e("Log","Failed to download result..");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Log.e(TAG,str.toString());
+            return str.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Log.e(TAG,s);
+        }
+    }
 }

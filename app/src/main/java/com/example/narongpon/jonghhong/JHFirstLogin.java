@@ -1,7 +1,9 @@
 package com.example.narongpon.jonghhong;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -47,6 +49,9 @@ public class JHFirstLogin extends ActionBarActivity {
 
     MaterialDialog.Builder materialDialog;
     ProgressDialog mProgress;
+
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,6 +211,18 @@ public class JHFirstLogin extends ActionBarActivity {
                 i.putExtra("myUsername" , myUsername);
                 i.putExtra("myEmail" , edtEmail.getText().toString());
                 i.putExtra("myTel" , edtTel.getText().toString());
+
+                sp = getSharedPreferences("Jonghhong", Context.MODE_PRIVATE);
+                editor = sp.edit();
+                editor.putString("myID", myID);
+                editor.putString("myName", myName);
+                editor.putString("myPermission", myPermission);
+                editor.putString("Permission", permission);
+                editor.putString("myUsername", myUsername);
+                editor.putString("myEmail" , edtEmail.getText().toString());
+                editor.putString("myTel" , edtTel.getText().toString());
+                editor.apply();
+
                 startActivity(i);
             }
         }

@@ -471,11 +471,11 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
             String strStatusID = "0";
             String strError = "ไม่สามารถเชื่อมต่อ server ได้";
             JSONObject jsonResvRoom;
-
             try{
                 jsonResvRoom = new JSONObject(str);
                 strStatusID = jsonResvRoom.getString("StatusID");
                 strError = jsonResvRoom.getString("Error");
+                Log.e("test",jsonResvRoom.getString("Error"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

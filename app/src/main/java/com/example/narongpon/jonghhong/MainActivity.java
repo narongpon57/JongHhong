@@ -1,7 +1,9 @@
 package com.example.narongpon.jonghhong;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -41,6 +43,8 @@ public class MainActivity extends ActionBarActivity {
     private ButtonRectangle btnLogin;
     MaterialDialog.Builder mtrDialog;
     private ProgressDialog mProgress;
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +109,7 @@ public class MainActivity extends ActionBarActivity {
                 HttpResponse response = client.execute(httpPost);
                 StatusLine statusLine = response.getStatusLine();
                 int statusCode = statusLine.getStatusCode();
-                //Log.e("StatusCode", String.valueOf(statusCode));
+                Log.e("StatusCode", String.valueOf(statusCode));
                 if(statusCode == 200) {
                     HttpEntity entity = response.getEntity();
                     InputStream content = entity.getContent();
@@ -113,7 +117,7 @@ public class MainActivity extends ActionBarActivity {
                     String line;
                     while ((line = reader.readLine()) != null) {
                         str.append(line);
-                        //Log.e("SQL",line);
+                        Log.e("SQL", line);
                     }
                 } else {
                     Log.e("Log", "Failed to download result..");
@@ -193,7 +197,7 @@ public class MainActivity extends ActionBarActivity {
             edtUser.setText("");
             edtPass.setText("");
 
-        } else if(email.equals("null") && tel.equals("null")){
+        } else if(email.equals("") && tel.equals("")){
             Log.e("test","test");
             Intent i = new Intent(getApplicationContext(),JHFirstLogin.class);
             i.putExtra("myID" , userID);
@@ -201,10 +205,9 @@ public class MainActivity extends ActionBarActivity {
             i.putExtra("myPermission", namePermission);
             i.putExtra("Permission" , permission);
             i.putExtra("myUsername" , edtUser.getText().toString());
+
             startActivity(i);
         } else{
-
-
             Intent i = new Intent(getApplicationContext(),MainDrawer.class);
             i.putExtra("myID" , userID);
             i.putExtra("myName", nameUser);
@@ -213,6 +216,18 @@ public class MainActivity extends ActionBarActivity {
             i.putExtra("myUsername" , edtUser.getText().toString());
             i.putExtra("myEmail" , email);
             i.putExtra("myTel" , tel);
+
+            sp = getSharedPreferences("Jonghhong", Context.MODE_PRIVATE);
+            editor = sp.edit();
+            editor.putString("myID",userID);
+            editor.putString("myName",nameUser);
+            editor.putString("myPermission",namePermission);
+            editor.putString("Permission",permission);
+            editor.putString("myUsername",edtUser.getText().toString());
+            editor.putString("myEmail",email);
+            editor.putString("myTel" , tel);
+            editor.apply();
+
             startActivity(i);
         }
     }
