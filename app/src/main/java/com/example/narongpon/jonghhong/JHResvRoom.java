@@ -475,7 +475,6 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
                 jsonResvRoom = new JSONObject(str);
                 strStatusID = jsonResvRoom.getString("StatusID");
                 strError = jsonResvRoom.getString("Error");
-                Log.e("test",jsonResvRoom.getString("Error"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

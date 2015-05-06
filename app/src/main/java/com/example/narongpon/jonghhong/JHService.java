@@ -1,10 +1,13 @@
 package com.example.narongpon.jonghhong;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -39,36 +42,48 @@ public class JHService extends IntentService {
     }
 
     private void sendNotification(String msg, String username, String status) {
-        Log.e("Service", "GCM 123");
         mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
+        SharedPreferences sp = getSharedPreferences("Jonghhong",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+
+
         Intent resultIntent = new Intent(this, MainDrawer.class);
-        if(status.equals("confirm")) {
-            resultIntent.putExtra("pos","3");
+        if(status.equals("resv")) {
+            editor.putInt("pos",4);
         } else {
-            resultIntent.putExtra("pos","3");
-
+            editor.putInt("pos",3);
         }
+        editor.commit();
 
+        resultIntent.setAction(Intent.ACTION_MAIN);
+        resultIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainDrawer.class);
-        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                resultIntent, 0);
 
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_ONE_SHOT
-                );
         mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.gcm_logo)
                 .setContentTitle("GCM Notification")
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
-                .setContentText("test");
+                .setContentText(msg);
+
+        mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+        mBuilder.setLights(Color.YELLOW, 3000, 3000);
+
+
         Log.e(TAG, msg);
 
-        mBuilder.setContentIntent(resultPendingIntent);
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-        Log.e(TAG, "123");
+        mBuilder.setContentIntent(pendingIntent);
+
+        mBuilder.setAutoCancel(true);
+
+        String user = sp.getString("myID","");
+        if(username.equals(user)) {
+
+            mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        } else {
+            Log.e(TAG, "UserID Not Match");
+        }
     }
 }

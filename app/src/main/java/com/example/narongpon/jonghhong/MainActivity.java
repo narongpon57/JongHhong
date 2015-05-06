@@ -209,13 +209,14 @@ public class MainActivity extends ActionBarActivity {
             startActivity(i);
         } else{
             Intent i = new Intent(getApplicationContext(),MainDrawer.class);
-            i.putExtra("myID" , userID);
+            /*i.putExtra("myID" , userID);
             i.putExtra("myName", nameUser);
             i.putExtra("myPermission", namePermission);
             i.putExtra("Permission" , permission);
             i.putExtra("myUsername" , edtUser.getText().toString());
             i.putExtra("myEmail" , email);
             i.putExtra("myTel" , tel);
+            i.putExtra("pos",0);*/
 
             sp = getSharedPreferences("Jonghhong", Context.MODE_PRIVATE);
             editor = sp.edit();
@@ -226,7 +227,8 @@ public class MainActivity extends ActionBarActivity {
             editor.putString("myUsername",edtUser.getText().toString());
             editor.putString("myEmail",email);
             editor.putString("myTel" , tel);
-            editor.apply();
+            editor.putInt("pos",0);
+            editor.commit();
 
             startActivity(i);
         }

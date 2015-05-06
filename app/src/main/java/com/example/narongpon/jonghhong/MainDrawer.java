@@ -56,17 +56,16 @@ public class MainDrawer extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jh_drawer);
 
-        Bundle bundle;
-        bundle = getIntent().getExtras();
+        SharedPreferences sp = getSharedPreferences("Jonghhong", Context.MODE_PRIVATE);
+        myName = sp.getString("myName","");
+        myPermission = sp.getString("myPermission","");
+        myID = sp.getString("myID","");
+        myTel = sp.getString("myTel","");
+        myEmail = sp.getString("myEmail","");
+        permission = sp.getString("Permission","");
+        int position = sp.getInt("pos", 0);
 
-        if(bundle != null) {
-            myName = getIntent().getExtras().getString("myName");
-            myPermission = getIntent().getExtras().getString("myPermission");
-            myID = getIntent().getExtras().getString("myID");
-            myTel = getIntent().getExtras().getString("myTel");
-            myEmail = getIntent().getExtras().getString("myEmail");
-            permission = getIntent().getExtras().getString("Permission");
-        }
+        Log.e("pos",String.valueOf(position));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerFrameLayout)findViewById(R.id.drawer);
@@ -152,7 +151,7 @@ public class MainDrawer extends ActionBarActivity {
             }
         });
 
-        selectFragment(0);
+        selectFragment(position);
 
         regID = registerGCM();
         new SendRegID().execute();

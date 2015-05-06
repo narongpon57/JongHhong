@@ -204,13 +204,14 @@ public class JHFirstLogin extends ActionBarActivity {
             } else {
                 SuperActivityToast.create(JHFirstLogin.this,"บันทึกข้อมูล เรียบร้อยแล้ว", SuperToast.Duration.MEDIUM).show();
                 Intent i = new Intent(getApplicationContext(),MainDrawer.class);
-                i.putExtra("myID" , myID);
+                /*i.putExtra("myID" , myID);
                 i.putExtra("myName", myName);
                 i.putExtra("myPermission", myPermission);
                 i.putExtra("Permission" , permission);
                 i.putExtra("myUsername" , myUsername);
                 i.putExtra("myEmail" , edtEmail.getText().toString());
                 i.putExtra("myTel" , edtTel.getText().toString());
+                i.putExtra("pos",0);*/
 
                 sp = getSharedPreferences("Jonghhong", Context.MODE_PRIVATE);
                 editor = sp.edit();
@@ -219,9 +220,9 @@ public class JHFirstLogin extends ActionBarActivity {
                 editor.putString("myPermission", myPermission);
                 editor.putString("Permission", permission);
                 editor.putString("myUsername", myUsername);
-                editor.putString("myEmail" , edtEmail.getText().toString());
-                editor.putString("myTel" , edtTel.getText().toString());
-                editor.apply();
+                editor.putString("myEmail", edtEmail.getText().toString());
+                editor.putString("myTel", edtTel.getText().toString());
+                editor.commit();
 
                 startActivity(i);
             }
