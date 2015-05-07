@@ -111,6 +111,7 @@ public class MainDrawer extends ActionBarActivity {
                 .setTextPrimary("แก้ไขข้อมูลส่วนตัว"));
 
 
+
         Drawable resvRoom_ic = getResources().getDrawable(R.drawable.reservation_ic);
         drawer.addItem(new DrawerItem()
                 .setImage(resvRoom_ic)

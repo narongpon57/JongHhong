@@ -22,7 +22,7 @@
     <string name="room">ห้องประชุม:</string>
 
     <!--edit profile-->
-    <string name="userID">รหัสนักศึษา:</string>
+    <string name="userID">รหัส:</string>
     <string name="name">ชื่อ - นามสกุล:</string>
     <string name="permission">สถานะ:</string>
     <string name="tel">เบอร์โทรศัพท์:</string>
