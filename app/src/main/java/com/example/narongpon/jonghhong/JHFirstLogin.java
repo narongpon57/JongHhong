@@ -43,6 +43,7 @@ public class JHFirstLogin extends ActionBarActivity {
     private String permission = "";
     private String myName = "";
     private String myUsername = "";
+    private String myPassword = "";
 
     private EditText edtTel, edtEmail;
     private ButtonRectangle btnFirstLogin;
@@ -64,6 +65,7 @@ public class JHFirstLogin extends ActionBarActivity {
         permission = getIntent().getExtras().getString("Permission");
         myName = getIntent().getExtras().getString("myName");
         myUsername = getIntent().getExtras().getString("myUsername");
+        myPassword = getIntent().getExtras().getString("myPassword");
 
         initWidget();
 
@@ -204,14 +206,6 @@ public class JHFirstLogin extends ActionBarActivity {
             } else {
                 SuperActivityToast.create(JHFirstLogin.this,"บันทึกข้อมูล เรียบร้อยแล้ว", SuperToast.Duration.MEDIUM).show();
                 Intent i = new Intent(getApplicationContext(),MainDrawer.class);
-                /*i.putExtra("myID" , myID);
-                i.putExtra("myName", myName);
-                i.putExtra("myPermission", myPermission);
-                i.putExtra("Permission" , permission);
-                i.putExtra("myUsername" , myUsername);
-                i.putExtra("myEmail" , edtEmail.getText().toString());
-                i.putExtra("myTel" , edtTel.getText().toString());
-                i.putExtra("pos",0);*/
 
                 sp = getSharedPreferences("Jonghhong", Context.MODE_PRIVATE);
                 editor = sp.edit();
@@ -222,6 +216,7 @@ public class JHFirstLogin extends ActionBarActivity {
                 editor.putString("myUsername", myUsername);
                 editor.putString("myEmail", edtEmail.getText().toString());
                 editor.putString("myTel", edtTel.getText().toString());
+                editor.putString("myPassword", myPassword);
                 editor.commit();
 
                 startActivity(i);

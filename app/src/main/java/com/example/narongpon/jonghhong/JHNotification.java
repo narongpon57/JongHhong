@@ -164,15 +164,17 @@ public class JHNotification extends Fragment {
         }
 
         private void refreshNotification(String str) {
-
-            String statusID;
+            String statusID = "";
+            JSONObject c;
             try{
-                JSONObject c = new JSONObject(str);
+                c = new JSONObject(str);
+                Log.e("12",statusID);
                 statusID = c.getString("StatusID");
+                Log.e("123",statusID);
                 if(statusID.equals("1")) {
-
                     SuperActivityToast.create(getActivity(), "ทำรายการเรียบร้อยแล้ว", SuperToast.Duration.MEDIUM).show();
                     MainDrawer mainActivity = (MainDrawer) getActivity();
+                    Log.e("456",statusID);
                     mainActivity.showNotification(myUserID);
                 } else {
                     SuperActivityToast.create(getActivity(), "ไม่สามารถทำรายการดังกล่าวได้", SuperToast.Duration.MEDIUM).show();

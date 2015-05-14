@@ -37,4 +37,10 @@
     <string name="advice">กรุณากรอกข้อมูลให้ครบถ้วน</string>
     <string name="gmail">อีเมล์: (กรอกเฉพาะ Gmail เท่านั้น)</string>
 
+    <!--ChangePassword-->
+    <string name="oldPassword">รหัสผ่านเดิม</string>
+    <string name="newPassword">รหัสผ่านใหม่</string>
+    <string name="confirmPass">ยืนยันรหัสผ่านใหม่</string>
+    <string name="changeButton">บันทึก</string>
+
 </resources>

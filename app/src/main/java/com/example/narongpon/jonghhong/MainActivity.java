@@ -35,6 +35,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.security.auth.login.LoginException;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -152,6 +154,7 @@ public class MainActivity extends ActionBarActivity {
         String tel = "";
         String email = "";
         String namePermission = "";
+        String password = "";
 
 
         try{
@@ -163,6 +166,7 @@ public class MainActivity extends ActionBarActivity {
             tel = jsonObject.getString("tel");
             email = jsonObject.getString("email");
             permission = jsonObject.getString("per");
+            password = edtPass.toString();
 
             switch (permission) {
                 case "1":
@@ -175,6 +179,8 @@ public class MainActivity extends ActionBarActivity {
                     namePermission = "เจ้าหน้าที่";
                     break;
             }
+
+            Log.e("Permission",namePermission);
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -198,25 +204,18 @@ public class MainActivity extends ActionBarActivity {
             edtPass.setText("");
 
         } else if(email.equals("") && tel.equals("")){
-            Log.e("test","test");
+            Log.e("test", "test");
             Intent i = new Intent(getApplicationContext(),JHFirstLogin.class);
             i.putExtra("myID" , userID);
             i.putExtra("myName" , nameUser);
             i.putExtra("myPermission", namePermission);
             i.putExtra("Permission" , permission);
             i.putExtra("myUsername" , edtUser.getText().toString());
+            i.putExtra("myPassword" , password);
 
             startActivity(i);
         } else{
             Intent i = new Intent(getApplicationContext(),MainDrawer.class);
-            /*i.putExtra("myID" , userID);
-            i.putExtra("myName", nameUser);
-            i.putExtra("myPermission", namePermission);
-            i.putExtra("Permission" , permission);
-            i.putExtra("myUsername" , edtUser.getText().toString());
-            i.putExtra("myEmail" , email);
-            i.putExtra("myTel" , tel);
-            i.putExtra("pos",0);*/
 
             sp = getSharedPreferences("Jonghhong", Context.MODE_PRIVATE);
             editor = sp.edit();
@@ -226,7 +225,8 @@ public class MainActivity extends ActionBarActivity {
             editor.putString("Permission",permission);
             editor.putString("myUsername",edtUser.getText().toString());
             editor.putString("myEmail",email);
-            editor.putString("myTel" , tel);
+            editor.putString("myTel", tel);
+            editor.putString("myPassword", password);
             editor.putInt("pos",0);
             editor.commit();
 

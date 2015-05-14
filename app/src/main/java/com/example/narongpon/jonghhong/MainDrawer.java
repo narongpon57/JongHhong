@@ -110,7 +110,10 @@ public class MainDrawer extends ActionBarActivity {
                 .setImage(editProfile_ic)
                 .setTextPrimary("แก้ไขข้อมูลส่วนตัว"));
 
-
+        Drawable password_ic = getResources().getDrawable(R.drawable.ic_lock);
+        drawer.addItem(new DrawerItem()
+                .setImage(password_ic)
+                .setTextPrimary("แก้ไขรหัสผ่าน"));
 
         Drawable resvRoom_ic = getResources().getDrawable(R.drawable.reservation_ic);
         drawer.addItem(new DrawerItem()
@@ -130,10 +133,6 @@ public class MainDrawer extends ActionBarActivity {
         }
         drawer.addDivider();
 
-        /*Drawable password_ic = getResources().getDrawable(R.drawable.ic_lock);
-        drawer.addItem(new DrawerItem()
-                .setImage(password_ic)
-                .setTextPrimary("ตั้งค่า"));*/
 
         Drawable setting_ic = getResources().getDrawable(R.drawable.settings_ic);
         drawer.addItem(new DrawerItem()
@@ -197,31 +196,33 @@ public class MainDrawer extends ActionBarActivity {
             fragment = new JHEditProfile();
             fragment.setArguments(bundle);
         }else if(position == 2){
+            fragment = new JHChangePassword();
+        }else if(position == 3){
             bundle.putString("myID" , myID);
             bundle.putString("Permission" , permission);
             bundle.putString("mCommand" , "Insert");
             fragment = new JHResvRoom();
             fragment.setArguments(bundle);
-        }else if(position == 3){
+        }else if(position == 4){
             bundle.putString("myID" , myID);
             bundle.putString("Permission" , permission);
             fragment = new JHResvHistory();
             fragment.setArguments(bundle);
-        }else if(position == 5 && !permission.equals("3")){
+        }else if(position == 6 && !permission.equals("3")){
             Intent i = new Intent(getApplicationContext(),JHSetting.class);
             startActivity(i);
-        }else if(position == 6 && !permission.equals("3")) {
+        }else if(position == 7 && !permission.equals("3")) {
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         }else {
-            if(position == 4) {
+            if(position == 5) {
                 bundle.putString("myID", myID);
                 fragment = new JHNotification();
                 fragment.setArguments(bundle);
-            }else if(position == 6) {
+            }else if(position == 7) {
                 Intent i = new Intent(getApplicationContext(),JHSetting.class);
                 startActivity(i);
-            }else if(position == 7) {
+            }else if(position == 8) {
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
             }

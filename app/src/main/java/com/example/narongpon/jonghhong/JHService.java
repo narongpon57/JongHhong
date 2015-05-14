@@ -34,7 +34,9 @@ public class JHService extends IntentService {
 
         if(!extras.isEmpty()) {
             if(GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
+                Log.e("extras",extras.toString());
                 sendNotification(extras.getString("message"), extras.getString("username"), extras.getString("status"));
+
             }
         }
 
@@ -47,12 +49,11 @@ public class JHService extends IntentService {
         SharedPreferences sp = getSharedPreferences("Jonghhong",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
-
         Intent resultIntent = new Intent(this, MainDrawer.class);
         if(status.equals("resv")) {
-            editor.putInt("pos",4);
+            editor.putInt("pos",5);
         } else {
-            editor.putInt("pos",3);
+            editor.putInt("pos",4);
         }
         editor.commit();
 
@@ -67,6 +68,7 @@ public class JHService extends IntentService {
                 .setContentTitle("GCM Notification")
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
                 .setContentText(msg);
+        Log.e("test",msg);
 
         mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
         mBuilder.setLights(Color.YELLOW, 3000, 3000);
