@@ -81,7 +81,6 @@ public class JHService extends IntentService {
         mBuilder.setAutoCancel(true);
 
         Boolean app = sp.getBoolean("get_boolean_app",true);
-        Log.e("app",String.valueOf(app));
         if(app) {
             mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
         } else {

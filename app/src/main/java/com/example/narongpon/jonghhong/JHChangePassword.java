@@ -78,7 +78,7 @@ public class JHChangePassword extends Fragment {
                     mtr.negativeText("ปิด");
                     mtr.show();
                 } else {
-                    new ChangePassword().execute(JHConfig.ChangePassURL);
+                    new ChangePassword().execute(JHConfig.ChangePass_URL);
                 }
             }
         });
