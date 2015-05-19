@@ -13,7 +13,7 @@ import android.support.v7.widget.Toolbar;
 
 public class JHSetting extends ActionBarActivity {
 
-    private static final String PREF_NAME = "SETTING";
+    private static final String PREF_NAME = "Jonghhong";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class JHSetting extends ActionBarActivity {
             smsCheckbox.setOnPreferenceChangeListener(new android.preference.Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(android.preference.Preference preference, Object newValue) {
-                    editor.putBoolean("get_boolean_sms", (Boolean) newValue);
+                    editor.putBoolean("get_boolean_sms", (Boolean)newValue);
                     editor.commit();
                     return true;
                 }

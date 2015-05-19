@@ -68,9 +68,9 @@ public class JHService extends IntentService {
                 .setContentTitle("GCM Notification")
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
                 .setContentText(msg);
-        Log.e("test",msg);
+        Log.e("test", msg);
 
-        mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+        mBuilder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
         mBuilder.setLights(Color.YELLOW, 3000, 3000);
 
 
@@ -80,12 +80,12 @@ public class JHService extends IntentService {
 
         mBuilder.setAutoCancel(true);
 
-        String user = sp.getString("myID","");
-        if(username.equals(user)) {
-
+        Boolean app = sp.getBoolean("get_boolean_app",true);
+        Log.e("app",String.valueOf(app));
+        if(app) {
             mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
         } else {
-            Log.e(TAG, "UserID Not Match");
+            Log.e(TAG, "User Don't Need App Notification");
         }
     }
 }

@@ -166,7 +166,7 @@ public class MainActivity extends ActionBarActivity {
             tel = jsonObject.getString("tel");
             email = jsonObject.getString("email");
             permission = jsonObject.getString("per");
-            password = edtPass.toString();
+            password = edtPass.getText().toString();
 
             switch (permission) {
                 case "1":

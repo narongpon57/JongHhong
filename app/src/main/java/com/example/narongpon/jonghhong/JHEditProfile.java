@@ -169,8 +169,6 @@ public class JHEditProfile extends Fragment{
     }
 
     private void updateUser(String str) {
-
-        Log.e("json",str);
         JSONObject jsonObject;
         String strStatusID = "0";
         String strError = "ไม่สามารถเชื่อมต่อ server ได้";

@@ -1,6 +1,8 @@
 package com.example.narongpon.jonghhong;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -70,13 +72,14 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
     private TimePickerDialog mTimePicker;
     private Calendar mCalendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Bangkok"));
 
+
     MaterialDialog.Builder mtrDialog;
     MaterialDialog mtr;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootVieW = inflater.inflate(R.layout.jh_resvroom, container , false);
+        rootVieW = inflater.inflate(R.layout.jh_resvroom, container, false);
 
         mCommand = getArguments().getString("mCommand");
 
@@ -95,6 +98,8 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
             myUserID = getArguments().getString("myID");
             permission = getArguments().getString("Permission");
         }
+
+
 
         initWidget();
 
