@@ -2,6 +2,8 @@ package com.example.narongpon.jonghhong;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -60,7 +62,9 @@ public class JHResvHistory extends Fragment {
     private String strRoomName = "";
     private String chkEvent = "";
     private String strDate = "";
+    private String permission = "";
     private int position;
+    SharedPreferences sp;
 
     private ProgressDialog mProgress;
 
@@ -79,6 +83,9 @@ public class JHResvHistory extends Fragment {
 
         myUserID = getArguments().getString("myID");
         strPermission = getArguments().getString("Permission");
+
+        sp = getActivity().getSharedPreferences("Jonghhong", Context.MODE_PRIVATE);
+        permission = sp.getString("Permission","");
 
         mListView = (IMaterialView)rootView.findViewById(R.id.listHistory);
         mListView.setCardAnimation(MaterialListView.CardAnimation.SWING_BOTTOM_IN);
@@ -263,7 +270,7 @@ public class JHResvHistory extends Fragment {
                         @Override
                         public void onPositive(MaterialDialog dialog) {
 
-                            if(isOneDate(strDate)) {
+                            if(isOneDate(strDate) && !permission.equals("3")) {
                                 mtrDialog = new MaterialDialog.Builder(getActivity());
                                 mtrDialog.title("ข้อผิดพลาด");
                                 mtrDialog.content("ไม่สามารถย้ายการจองห้องได้ ต้องทำการล่วงหน้าอย่างน้อย 1 วัน กรุณาติดต่อเจ้าหน้าที่");
@@ -312,7 +319,7 @@ public class JHResvHistory extends Fragment {
                             strTransactionID = MyArrList.get(position).get("TransactionID");
                             strDate = MyArrList.get(position).get("ResvDate");
 
-                            if(isOneDate(strDate)) {
+                            if(isOneDate(strDate) && !permission.equals("3")) {
                                 mtrDialog = new MaterialDialog.Builder(getActivity());
                                 mtrDialog.title("ข้อผิดพลาด");
                                 mtrDialog.content("ไม่สามารถย้ายการจองห้องได้ ต้องทำการล่วงหน้าอย่างน้อย 1 วัน กรุณาติดต่อเจ้าหน้าที่");

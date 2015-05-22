@@ -65,8 +65,6 @@ public class MainDrawer extends ActionBarActivity {
         permission = sp.getString("Permission","");
         int position = sp.getInt("pos", 0);
 
-        Log.e("pos",String.valueOf(position));
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerFrameLayout)findViewById(R.id.drawer);
 
@@ -297,7 +295,6 @@ public class MainDrawer extends ActionBarActivity {
 
         gcm = GoogleCloudMessaging.getInstance(this);
         regID = getRegistrationID();
-        Log.e("regID", regID);
         if(regID.isEmpty()) {
             new GcmRegistration().execute();
         } else {
@@ -331,7 +328,6 @@ public class MainDrawer extends ActionBarActivity {
                 regID = gcm.register(JHConfig.GOOGLE_PROJECT_ID);
                 msg = "Device registerd, regID = " +regID;
                 storeRegistrationID(regID);
-                Log.e("register","reg");
             } catch (IOException e) {
                 msg = e.getMessage();
                 Log.e("RegisterGCM", "Error: " + msg);
@@ -348,7 +344,6 @@ public class MainDrawer extends ActionBarActivity {
     private void storeRegistrationID(String regID) {
         final SharedPreferences prefs = getSharedPreferences("GCMRegID", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        Log.e("Saving RegID..." , regID);
         editor.putString(REG_ID, regID);
         editor.apply();
     }
@@ -369,7 +364,7 @@ public class MainDrawer extends ActionBarActivity {
                 HttpResponse response = client.execute(httpPost);
                 StatusLine statusLine = response.getStatusLine();
                 int statusCode = statusLine.getStatusCode();
-                Log.e("StatusLine",String.valueOf(statusCode));
+                Log.e("statusCode_MainDrawer",String.valueOf(statusCode));
                 if (statusCode == 200) {
                     HttpEntity entity = response.getEntity();
                     InputStream content = entity.getContent();
@@ -384,11 +379,9 @@ public class MainDrawer extends ActionBarActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             Log.e(TAG,str.toString());
             return str.toString();
         }
-
         @Override
         protected void onPostExecute(String s) {
             Log.e(TAG,s);

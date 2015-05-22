@@ -96,7 +96,7 @@ public class JHNotification extends Fragment {
                 HttpResponse response = client.execute(httpPost);
                 StatusLine statusLine = response.getStatusLine();
                 int statusCode = statusLine.getStatusCode();
-                Log.e("statusCode", String.valueOf(statusCode));
+                Log.e("statusCode_Notification", String.valueOf(statusCode));
                 if (statusCode == 200) {
                     HttpEntity entity = response.getEntity();
                     InputStream content = entity.getContent();
@@ -164,13 +164,11 @@ public class JHNotification extends Fragment {
         }
 
         private void refreshNotification(String str) {
-            String statusID = "";
+            String statusID;
             JSONObject c;
             try{
                 c = new JSONObject(str);
-                Log.e("12",statusID);
                 statusID = c.getString("StatusID");
-                Log.e("123",statusID);
                 if(statusID.equals("1")) {
                     SuperActivityToast.create(getActivity(), "ทำรายการเรียบร้อยแล้ว", SuperToast.Duration.MEDIUM).show();
                     MainDrawer mainActivity = (MainDrawer) getActivity();
@@ -260,7 +258,6 @@ public class JHNotification extends Fragment {
                         }
                     });
                     mtr.show();
-
                 }
             });
             return card;

@@ -99,7 +99,7 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
             permission = getArguments().getString("Permission");
         }
 
-
+        Log.e("permission",permission);
 
         initWidget();
 
@@ -233,14 +233,23 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
             newMonth = String.valueOf(month);
         }
 
-        if(chkInputDate(newDate,newMonth,year).equals("3date")) {
-            mtrDialog.content("กรุณาจองห้องล่วงหน้าอย่างน้อย 3 วัน");
-            mtrDialog.show();
-        } else if (!chkInputDate(newDate,newMonth,year).equals("30date")) {
-            mtrDialog.content("กรุณาจองห้องล่วงหน้าไม่เกิน 30 วัน");
-            mtrDialog.show();
+        if (permission.equals("3")) {
+            if(!chkInputDateStaff(newDate, newMonth, year).equals("30date")) {
+                mtrDialog.content("ห้ามจองห้องย้อนหลัง");
+                mtrDialog.show();
+            } else {
+                edtResvDate.setText(newDate + "/" + newMonth + "/" + year);
+            }
         } else {
-            edtResvDate.setText(newDate + "/" + newMonth + "/" + year);
+            if (chkInputDate(newDate, newMonth, year).equals("3date")) {
+                mtrDialog.content("กรุณาจองห้องล่วงหน้าอย่างน้อย 3 วัน");
+                mtrDialog.show();
+            } else if (!chkInputDate(newDate, newMonth, year).equals("30date")) {
+                mtrDialog.content("ห้ามจองห้องย้อนหลัง และกรุณาจองห้องล่วงหน้าไม่เกิน 30 วัน");
+                mtrDialog.show();
+            } else {
+                edtResvDate.setText(newDate + "/" + newMonth + "/" + year);
+            }
         }
     }
 
@@ -312,7 +321,6 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
                 chk = true;
             }
         }
-
         return chk;
     }
 
@@ -335,8 +343,7 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
             c.add(Calendar.DATE , 0);
             tmpDate = dfm.format(c.getTime());
             if(tmpDate.equals(newResvDate)){
-                chkDate = "3date";
-
+                chkDate = "1date";
             } else {
                 for (int i = 0; i < 30; i++) {
                     c.add(Calendar.DATE, 1);
@@ -345,12 +352,45 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
                     if (i < 2 && newResvDate.equals(tmpDate)) {
                         chkDate = "3date";
 
-                    }else if (newResvDate.equals(tmpDate)) {
+                    } else if (newResvDate.equals(tmpDate)) {
                         chkDate = "30date";
-
                     }
                 }
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return chkDate;
+    }
+
+    public String chkInputDateStaff(String date , String month , int year) {
+        String chkDate = "";
+        String strYear = String.valueOf(year);
+        String newResvDate = date + "/" + month + "/" + strYear;
+        SimpleDateFormat dfm = new SimpleDateFormat("dd/MM/yyyy");
+        dfm.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
+        Calendar c = Calendar.getInstance();
+
+        String currentDate = dfm.format(c.getTime());
+        String tmpDate;
+
+        try {
+            c.setTime(dfm.parse(currentDate));
+            c.add(Calendar.DATE , 0);
+            tmpDate = dfm.format(c.getTime());
+            if(tmpDate.equals(newResvDate)){
+                chkDate = "30date";
+            } else {
+                for (int i = 0; i < 30; i++) {
+                    c.add(Calendar.DATE, 1);
+                    tmpDate = dfm.format(c.getTime());
+                    if (newResvDate.equals(tmpDate)) {
+                        chkDate = "30date";
+                    }
+                }
+            }
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -400,7 +440,6 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
                     if(mCommand.equals("Edit")){
                         params.add(new BasicNameValuePair("tranID", mTranID));
                     }
-
                     httpPost.setEntity(new UrlEncodedFormEntity(params));
                 }
                 HttpResponse response = client.execute(httpPost);

@@ -155,6 +155,7 @@ public class MainActivity extends ActionBarActivity {
         String email = "";
         String namePermission = "";
         String password = "";
+        String statusBan = "";
 
 
         try{
@@ -167,6 +168,7 @@ public class MainActivity extends ActionBarActivity {
             email = jsonObject.getString("email");
             permission = jsonObject.getString("per");
             password = edtPass.getText().toString();
+            statusBan = jsonObject.getString("status_ban");
 
             switch (permission) {
                 case "1":
@@ -179,8 +181,6 @@ public class MainActivity extends ActionBarActivity {
                     namePermission = "เจ้าหน้าที่";
                     break;
             }
-
-            Log.e("Permission",namePermission);
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -193,44 +193,52 @@ public class MainActivity extends ActionBarActivity {
 
             edtUser.setText("");
             edtPass.setText("");
-        } else if(permission.equals("4")){
+        } else if (strFound.equals("1") && statusBan.equals("3")){
             mtrDialog.title("ข้อผิดพลาด !");
-            mtrDialog.content("ผู้ดูแลระบบไม่สามารถใช้งานในส่วนนี้ได้");
+            mtrDialog.content("ชื่อผู้ใช้นี้ถูกระงับการใช้งาน");
             mtrDialog.negativeText("ปิด");
-
             mtrDialog.show();
 
             edtUser.setText("");
             edtPass.setText("");
+        } else {
+            if(permission.equals("4")){
+                mtrDialog.title("ข้อผิดพลาด !");
+                mtrDialog.content("ผู้ดูแลระบบไม่สามารถใช้งานในส่วนนี้ได้");
+                mtrDialog.negativeText("ปิด");
 
-        } else if(email.equals("") && tel.equals("")){
-            Log.e("test", "test");
-            Intent i = new Intent(getApplicationContext(),JHFirstLogin.class);
-            i.putExtra("myID" , userID);
-            i.putExtra("myName" , nameUser);
-            i.putExtra("myPermission", namePermission);
-            i.putExtra("Permission" , permission);
-            i.putExtra("myUsername" , edtUser.getText().toString());
-            i.putExtra("myPassword" , password);
+                mtrDialog.show();
 
-            startActivity(i);
-        } else{
-            Intent i = new Intent(getApplicationContext(),MainDrawer.class);
+                edtUser.setText("");
+                edtPass.setText("");
 
-            sp = getSharedPreferences("Jonghhong", Context.MODE_PRIVATE);
-            editor = sp.edit();
-            editor.putString("myID",userID);
-            editor.putString("myName",nameUser);
-            editor.putString("myPermission",namePermission);
-            editor.putString("Permission",permission);
-            editor.putString("myUsername",edtUser.getText().toString());
-            editor.putString("myEmail",email);
-            editor.putString("myTel", tel);
-            editor.putString("myPassword", password);
-            editor.putInt("pos",0);
-            editor.commit();
+            } else if(email.equals("") && tel.equals("")){
+                Intent i = new Intent(getApplicationContext(),JHFirstLogin.class);
+                i.putExtra("myID" , userID);
+                i.putExtra("myName" , nameUser);
+                i.putExtra("myPermission", namePermission);
+                i.putExtra("Permission" , permission);
+                i.putExtra("myUsername" , edtUser.getText().toString());
+                i.putExtra("myPassword" , password);
 
-            startActivity(i);
+                startActivity(i);
+            } else{
+                Intent i = new Intent(getApplicationContext(),MainDrawer.class);
+                sp = getSharedPreferences("Jonghhong", Context.MODE_PRIVATE);
+                editor = sp.edit();
+                editor.putString("myID",userID);
+                editor.putString("myName",nameUser);
+                editor.putString("myPermission",namePermission);
+                editor.putString("Permission",permission);
+                editor.putString("myUsername",edtUser.getText().toString());
+                editor.putString("myEmail",email);
+                editor.putString("myTel", tel);
+                editor.putString("myPassword", password);
+                editor.putInt("pos",0);
+                editor.commit();
+
+                startActivity(i);
+            }
         }
     }
 
