@@ -108,7 +108,12 @@ public class JHSetting extends ActionBarActivity {
 
         public void getPref() {
             chkApp = sp.getBoolean("get_boolean_app", true);
-            chkSms = sp.getBoolean("get_boolean_sms", false);
+            int SMS = sp.getInt("sms_setting", 1);
+            if(SMS == 1) {
+                chkSms = true;
+            } else {
+                chkSms = false;
+            }
             userID = sp.getString("myID","");
 
             appCheckbox.setChecked(chkApp);

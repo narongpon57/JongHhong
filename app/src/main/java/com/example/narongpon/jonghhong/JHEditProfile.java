@@ -1,6 +1,8 @@
 package com.example.narongpon.jonghhong;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -47,16 +49,20 @@ public class JHEditProfile extends Fragment{
     private ProgressDialog mProgress;
 
     MaterialDialog.Builder mtrDialog;
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.jh_editprofile,container,false);
+        rootView = inflater.inflate(R.layout.jh_editprofile, container, false);
 
         myID = getArguments().getString("myID");
         myName = getArguments().getString("myName");
         myPermission = getArguments().getString("myPermission");
-        myTel = getArguments().getString("myTel");
-        myEmail = getArguments().getString("myEmail");
+        sp = getActivity().getSharedPreferences("Jonghhong", Context.MODE_PRIVATE);
+        myEmail = sp.getString("myEmail","");
+        myTel = sp.getString("myTel","");
+
 
 
         initWidget();
@@ -73,16 +79,39 @@ public class JHEditProfile extends Fragment{
                 mtrDialog.callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-
-                        if(edtTel.getText().toString().equals("") || edtEmail.getText().toString().equals("")) {
+                        if (edtTel.getText().toString().equals("") || edtEmail.getText().toString().equals("")) {
                             mtrDialog = new MaterialDialog.Builder(getActivity());
                             mtrDialog.title("ข้อผิดพลาด");
                             mtrDialog.content("กรุณากรอกข้อมูลให้ครบถ้วน");
                             mtrDialog.negativeText("ปิด");
                             mtrDialog.show();
+                        } else if (!edtTel.getText().toString().equals("") && edtTel.getText().toString().length() != 10) {
+                            mtrDialog = new MaterialDialog.Builder(getActivity());
+                            mtrDialog.title("ข้อผิดพลาด");
+                            mtrDialog.content("กรุณากรอกเบอร์โทรศัพท์ให้ครบถ้วน");
+                            mtrDialog.negativeText("ปิด");
+                            mtrDialog.show();
                         } else {
-                            String serverURL = "http://jonghhong.uinno.co.th/JHMobile/updateUser.php";
-                            new SimpleTask().execute(serverURL);
+                            String getEmail = edtEmail.getText().toString();
+                            String[] chkEmail = getEmail.split("@");
+                            int findStr = getEmail.indexOf("@");
+
+                            if (findStr == -1) {
+                                mtrDialog.content("กรุณากรอกข้อมูลอีเมล์ให้ถูกต้อง");
+                                mtrDialog.negativeText("ปิด");
+                                mtrDialog.show();
+
+                                edtEmail.setText("");
+                            } else if (!chkEmail[1].equals("gmail.com")) {
+                                mtrDialog.content("กรุณากรอกอีเมล์ที่เป็น Gmail เท่านั้น");
+                                mtrDialog.negativeText("ปิด");
+                                mtrDialog.show();
+
+                                edtEmail.setText("");
+                            } else {
+                                String serverURL = "http://jonghhong.uinno.co.th/JHMobile/updateUser.php";
+                                new SimpleTask().execute(serverURL);
+                            }
                         }
                     }
 
@@ -92,11 +121,8 @@ public class JHEditProfile extends Fragment{
                     }
                 });
                 mtrDialog.show();
-
-
             }
         });
-
         return rootView;
     }
 
@@ -190,6 +216,10 @@ public class JHEditProfile extends Fragment{
             mtrDialog.show();
         } else {
             SuperActivityToast.create(getActivity(),"บันทึกข้อมูลเรียบร้อยแล้ว", SuperToast.Duration.SHORT).show();
+            editor = sp.edit();
+            editor.putString("myEmail",edtEmail.getText().toString());
+            editor.putString("myTel",edtTel.getText().toString());
+            editor.commit();
         }
     }
 }

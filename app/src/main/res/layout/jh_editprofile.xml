@@ -60,7 +60,9 @@
             app:floatingLabel="highlight"
             app:floatingLabelTextSize="14sp"
             app:baseColor="#000000"
-            app:primaryColor="#827717"/>
+            app:primaryColor="#827717"
+            android:maxLength="10"
+            android:inputType="phone"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
@@ -70,7 +72,8 @@
             app:floatingLabel="highlight"
             app:floatingLabelTextSize="14sp"
             app:baseColor="#000000"
-            app:primaryColor="#827717"/>
+            app:primaryColor="#827717"
+            android:inputType="textEmailAddress"/>
 
         <com.gc.materialdesign.views.ButtonRectangle
             android:layout_width="match_parent"

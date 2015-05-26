@@ -51,6 +51,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
+
 public class JHResvHistory extends Fragment {
 
     private String strTransactionID = "";
@@ -85,7 +86,7 @@ public class JHResvHistory extends Fragment {
         strPermission = getArguments().getString("Permission");
 
         sp = getActivity().getSharedPreferences("Jonghhong", Context.MODE_PRIVATE);
-        permission = sp.getString("Permission","");
+        permission = sp.getString("Permission", "");
 
         mListView = (IMaterialView)rootView.findViewById(R.id.listHistory);
         mListView.setCardAnimation(MaterialListView.CardAnimation.SWING_BOTTOM_IN);
@@ -120,12 +121,13 @@ public class JHResvHistory extends Fragment {
 
             if(chkEvent.equals("cancel")) {
                 params.add(new BasicNameValuePair("tID", strTransactionID));
+                params.add(new BasicNameValuePair("permission", permission));
             }else {
                 params.add(new BasicNameValuePair("id", myUserID));
                 params.add(new BasicNameValuePair("permission", strPermission));
             }
             try {
-                httpPost.setEntity(new UrlEncodedFormEntity(params));
+                httpPost.setEntity(new UrlEncodedFormEntity(params,"UTF-8"));
                 HttpResponse response = client.execute(httpPost);
                 StatusLine statusLine = response.getStatusLine();
                 int statusCode = statusLine.getStatusCode();
@@ -137,7 +139,7 @@ public class JHResvHistory extends Fragment {
                     String line;
                     while((line = reader.readLine()) != null) {
                         str.append(line);
-                        Log.e("Str",line);
+                        Log.e("History",line);
                     }
                 } else {
                     Log.e("Log", "Fail to download Data..");
@@ -380,8 +382,6 @@ public class JHResvHistory extends Fragment {
                 e.printStackTrace();
             }
         }
-
         return chk;
     }
-
 }

@@ -156,6 +156,7 @@ public class MainActivity extends ActionBarActivity {
         String namePermission = "";
         String password = "";
         String statusBan = "";
+        int smsSetting = 0;
 
 
         try{
@@ -169,6 +170,7 @@ public class MainActivity extends ActionBarActivity {
             permission = jsonObject.getString("per");
             password = edtPass.getText().toString();
             statusBan = jsonObject.getString("status_ban");
+            smsSetting = jsonObject.getInt("sms_setting");
 
             switch (permission) {
                 case "1":
@@ -220,6 +222,7 @@ public class MainActivity extends ActionBarActivity {
                 i.putExtra("Permission" , permission);
                 i.putExtra("myUsername" , edtUser.getText().toString());
                 i.putExtra("myPassword" , password);
+                i.putExtra("sms_setting" , smsSetting);
 
                 startActivity(i);
             } else{
@@ -235,6 +238,7 @@ public class MainActivity extends ActionBarActivity {
                 editor.putString("myTel", tel);
                 editor.putString("myPassword", password);
                 editor.putInt("pos",0);
+                editor.putInt("sms_setting",smsSetting);
                 editor.commit();
 
                 startActivity(i);

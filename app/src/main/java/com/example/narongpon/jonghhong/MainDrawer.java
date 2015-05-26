@@ -297,11 +297,7 @@ public class MainDrawer extends ActionBarActivity {
         regID = getRegistrationID();
         if(regID.isEmpty()) {
             new GcmRegistration().execute();
-        } else {
-            Log.e(TAG,"get already");
         }
-
-
         return regID;
     }
 
@@ -310,9 +306,9 @@ public class MainDrawer extends ActionBarActivity {
         String registrationID;
         final SharedPreferences prefs = getSharedPreferences("GCMRegID", Context.MODE_PRIVATE);
         registrationID = prefs.getString(REG_ID,"");
-        if(registrationID != null && registrationID.isEmpty()) {
+        /*if(registrationID != null && registrationID.isEmpty()) {
             Log.e("getRegID","RegistrationID Not Found");
-        }
+        }*/
         return registrationID;
     }
 
@@ -330,7 +326,6 @@ public class MainDrawer extends ActionBarActivity {
                 storeRegistrationID(regID);
             } catch (IOException e) {
                 msg = e.getMessage();
-                Log.e("RegisterGCM", "Error: " + msg);
             }
             return msg;
         }
@@ -379,12 +374,10 @@ public class MainDrawer extends ActionBarActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Log.e(TAG,str.toString());
             return str.toString();
         }
         @Override
         protected void onPostExecute(String s) {
-            Log.e(TAG,s);
         }
     }
 }

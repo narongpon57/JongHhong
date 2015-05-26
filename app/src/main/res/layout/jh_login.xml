@@ -52,7 +52,8 @@
             android:inputType="textPassword"
             android:drawableLeft="@drawable/ic_lock"
             android:background="@drawable/edt_buttom"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:maxLength="10"/>
 
         <com.gc.materialdesign.views.ButtonRectangle
             android:layout_width="match_parent"

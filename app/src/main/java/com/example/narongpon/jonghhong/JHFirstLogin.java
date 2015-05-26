@@ -44,6 +44,7 @@ public class JHFirstLogin extends ActionBarActivity {
     private String myName = "";
     private String myUsername = "";
     private String myPassword = "";
+    int smsSetting = 0;
 
     private EditText edtTel, edtEmail;
     private ButtonRectangle btnFirstLogin;
@@ -66,6 +67,7 @@ public class JHFirstLogin extends ActionBarActivity {
         myName = getIntent().getExtras().getString("myName");
         myUsername = getIntent().getExtras().getString("myUsername");
         myPassword = getIntent().getExtras().getString("myPassword");
+        smsSetting = getIntent().getExtras().getInt("sms_setting");
 
         initWidget();
 
@@ -217,6 +219,7 @@ public class JHFirstLogin extends ActionBarActivity {
                 editor.putString("myEmail", edtEmail.getText().toString());
                 editor.putString("myTel", edtTel.getText().toString());
                 editor.putString("myPassword", myPassword);
+                editor.putInt("sms_setting", smsSetting);
                 editor.commit();
 
                 startActivity(i);
