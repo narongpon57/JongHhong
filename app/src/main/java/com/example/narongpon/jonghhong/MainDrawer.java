@@ -49,7 +49,7 @@ public class MainDrawer extends ActionBarActivity {
     private String myName, myPermission, myID, myTel, myEmail, permission;
     private String regID;
     private static final String REG_ID = "regID";
-    private static final String TAG = "register";
+    //private static final String TAG = "register";
     GoogleCloudMessaging gcm;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -291,8 +291,28 @@ public class MainDrawer extends ActionBarActivity {
         drawer.closeDrawer();
     }
 
-    public String registerGCM() {
+    public void changeRoomByStaff(String TranID, String resvDate, String stTime, String enTime, String userID,
+                                  String roomName, String mCommand, String roomID, String staffID) {
+        Bundle bundle = new Bundle();
+        bundle.putString("myID", userID);
+        bundle.putString("mTranID", TranID);
+        bundle.putString("resvDate", resvDate);
+        bundle.putString("stTime", stTime);
+        bundle.putString("enTime", enTime);
+        bundle.putString("rName", roomName);
+        bundle.putString("mCommand", mCommand);
+        bundle.putString("rID", roomID);
+        bundle.putString("staffID",staffID);
+        Fragment fragment = new JHResvRoom();
+        fragment.setArguments(bundle);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.drawer, fragment).commit();
+
+        drawer.closeDrawer();
+    }
+
+    public String registerGCM() {
         gcm = GoogleCloudMessaging.getInstance(this);
         regID = getRegistrationID();
         if(regID.isEmpty()) {
@@ -302,13 +322,9 @@ public class MainDrawer extends ActionBarActivity {
     }
 
     public String getRegistrationID() {
-
         String registrationID;
         final SharedPreferences prefs = getSharedPreferences("GCMRegID", Context.MODE_PRIVATE);
         registrationID = prefs.getString(REG_ID,"");
-        /*if(registrationID != null && registrationID.isEmpty()) {
-            Log.e("getRegID","RegistrationID Not Found");
-        }*/
         return registrationID;
     }
 
@@ -328,11 +344,6 @@ public class MainDrawer extends ActionBarActivity {
                 msg = e.getMessage();
             }
             return msg;
-        }
-
-        @Override
-        protected void onPostExecute(String msg) {
-            Log.e(TAG,msg);
         }
     }
 
@@ -375,9 +386,6 @@ public class MainDrawer extends ActionBarActivity {
                 e.printStackTrace();
             }
             return str.toString();
-        }
-        @Override
-        protected void onPostExecute(String s) {
         }
     }
 }

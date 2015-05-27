@@ -71,7 +71,7 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
     private DatePickerDialog mDatePicker;
     private TimePickerDialog mTimePicker;
     private Calendar mCalendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Bangkok"));
-
+    private String staffID;
 
     MaterialDialog.Builder mtrDialog;
     MaterialDialog mtr;
@@ -94,12 +94,19 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
             mEnTime = getArguments().getString("enTime");
             mRoomName = getArguments().getString("rName");
             mRoomID = getArguments().getString("rID");
-        }else {
+        } else if(mCommand.equals("changeRoomByStaff")){
+            myUserID = getArguments().getString("myID");
+            mTranID = getArguments().getString("mTranID");
+            mResvDate = getArguments().getString("resvDate");
+            mStTime = getArguments().getString("stTime");
+            mEnTime = getArguments().getString("enTime");
+            mRoomName = getArguments().getString("rName");
+            mRoomID = getArguments().getString("rID");
+            staffID = getArguments().getString("staffID");
+        } else {
             myUserID = getArguments().getString("myID");
             permission = getArguments().getString("Permission");
         }
-
-        Log.e("permission",permission);
 
         initWidget();
 
@@ -173,13 +180,18 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
 
                     edtStTime.setText("");
                     edtEnTime.setText("");
-                } else{
+                } else if (mCommand.equals("changeRoomByStaff") && mRoomName.equals(edtRoom.getText().toString())) {
+                    mtrDialog.content("กรุณาเลือกห้องประชุมที่ต้องการย้ายให้ผู้ใช้งาน");
+                    mtrDialog.show();
+                }else{
 
                     String resultServer;
 
                     if(mCommand.equals("Edit")){
                         resultServer = "http://jonghhong.uinno.co.th/JHMobile/editRoom.php";
-                    }else {
+                    } else if (mCommand.equals("changeRoomByStaff")) {
+                        resultServer = JHConfig.ChangeRoomByStaff_URL;
+                    } else {
                         resultServer = "http://jonghhong.uinno.co.th/JHMobile/resvRoom.php";
                     }
                     String setupTask = "resvRoom";
@@ -206,6 +218,15 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
             edtStTime.setText(mStTime);
             edtEnTime.setText(mEnTime);
             edtRoom.setText(mRoomName);
+        } else if(mCommand.equals("changeRoomByStaff")) {
+            edtResvDate.setText(mResvDate);
+            edtStTime.setText(mStTime);
+            edtEnTime.setText(mEnTime);
+            edtRoom.setText(mRoomName);
+
+            edtStTime.setEnabled(false);
+            edtEnTime.setEnabled(false);
+            edtResvDate.setEnabled(false);
         }
     }
 
@@ -429,8 +450,8 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
             }
 
             try{
-                if(chk.equals("resvRoom")) {
-                    List<NameValuePair> params = new ArrayList<>();
+                List<NameValuePair> params = new ArrayList<>();
+                if(chk.equals("resvRoom") && !mCommand.equals("changeRoomByStaff")) {
                     params.add(new BasicNameValuePair("id" , myUserID));
                     params.add(new BasicNameValuePair("permission" , permission));
                     params.add(new BasicNameValuePair("room" , sR_ID));
@@ -441,6 +462,17 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
                         params.add(new BasicNameValuePair("tranID", mTranID));
                     }
                     httpPost.setEntity(new UrlEncodedFormEntity(params));
+                } else if (chk.equals("resvRoom") && mCommand.equals("changeRoomByStaff")) {
+                    params.add(new BasicNameValuePair("id" , myUserID));
+                    params.add(new BasicNameValuePair("room" , sR_ID));
+                    params.add(new BasicNameValuePair("roomName", edtRoom.getText().toString()));
+                    params.add(new BasicNameValuePair("resvDate" , edtResvDate.getText().toString()));
+                    params.add(new BasicNameValuePair("start" , edtStTime.getText().toString()));
+                    params.add(new BasicNameValuePair("end" , edtEnTime.getText().toString()));
+                    params.add(new BasicNameValuePair("tranID", mTranID));
+                    params.add(new BasicNameValuePair("staffID", staffID));
+                    params.add(new BasicNameValuePair("oldRoom", mRoomName));
+                    httpPost.setEntity(new UrlEncodedFormEntity(params,"UTF-8"));
                 }
                 HttpResponse response = client.execute(httpPost);
                 StatusLine statusLine = response.getStatusLine();

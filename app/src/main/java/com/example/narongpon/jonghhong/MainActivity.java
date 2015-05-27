@@ -156,6 +156,7 @@ public class MainActivity extends ActionBarActivity {
         String namePermission = "";
         String password = "";
         String statusBan = "";
+        int countBan = 0;
         int smsSetting = 0;
 
 
@@ -171,6 +172,7 @@ public class MainActivity extends ActionBarActivity {
             password = edtPass.getText().toString();
             statusBan = jsonObject.getString("status_ban");
             smsSetting = jsonObject.getInt("sms_setting");
+            countBan = jsonObject.getInt("count_ban");
 
             switch (permission) {
                 case "1":
@@ -195,7 +197,7 @@ public class MainActivity extends ActionBarActivity {
 
             edtUser.setText("");
             edtPass.setText("");
-        } else if (strFound.equals("1") && statusBan.equals("3")){
+        } else if (strFound.equals("1") && statusBan.equals("ban") && countBan == 3){
             mtrDialog.title("ข้อผิดพลาด !");
             mtrDialog.content("ชื่อผู้ใช้นี้ถูกระงับการใช้งาน");
             mtrDialog.negativeText("ปิด");

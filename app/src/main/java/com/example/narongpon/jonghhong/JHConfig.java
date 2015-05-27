@@ -6,4 +6,5 @@ public interface JHConfig {
 
     String ChangePass_URL = "http://jonghhong.uinno.co.th/JHMobile/changePassword.php";
     String SetttingSMS_URL = "http://jonghhong.uinno.co.th/JHMobile/smsSetting.php";
+    String ChangeRoomByStaff_URL = "http://jonghhong.uinno.co.th/JHMobile/changeRoomByStaff.php";
 }

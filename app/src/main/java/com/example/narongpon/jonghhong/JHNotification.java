@@ -145,9 +145,9 @@ public class JHNotification extends Fragment {
                         String resvDate = c.getString("resv_date");
                         String stTime = c.getString("resv_start_time");
                         String enTime = c.getString("resv_end_time");
+                        String roomID = c.getString("r_id");
 
-
-                        addList(tranID, userID, name, room, resvDate, stTime, enTime);
+                        addList(tranID, userID, name, room, resvDate, stTime, enTime, roomID);
 
                         Card card = getNotificationListCard();
                         materialView.add(card);
@@ -183,7 +183,7 @@ public class JHNotification extends Fragment {
         }
 
         private void addList(String tranID, String userID, String name, String room, String resvDate, String stTime,
-                            String enTime) {
+                            String enTime, String roomID) {
 
             map = new HashMap<>();
             map.put("TransactionID" , tranID);
@@ -193,6 +193,7 @@ public class JHNotification extends Fragment {
             map.put("ResvDate" , resvDate);
             map.put("StartTime" , stTime);
             map.put("EndTime", enTime);
+            map.put("RoomID", roomID);
             MyArrList.add(map);
         }
 
@@ -239,9 +240,9 @@ public class JHNotification extends Fragment {
                 public void onButtonPressedListener(View view, final Card card) {
                     mtr = new MaterialDialog.Builder(getActivity());
                     mtr.title("รอการยืนยัน");
-                    mtr.content("ต้องการยกเลิกการจองใช่หรือไม่ ?");
-                    mtr.negativeText("ไม่");
-                    mtr.positiveText("ใช่");
+                    mtr.content("กรุณาเลือกรายการที่ต้องการ ?");
+                    mtr.negativeText("ย้ายห้องประชุม");
+                    mtr.positiveText("ยกเลิกการจองห้อง");
                     mtr.callback(new MaterialDialog.ButtonCallback() {
                         @Override
                         public void onPositive(MaterialDialog dialog) {
@@ -254,7 +255,19 @@ public class JHNotification extends Fragment {
 
                         @Override
                         public void onNegative(MaterialDialog dialog) {
-                            super.onNegative(dialog);
+                            position = materialView.getPosition(card);
+                            String transactionID = MyArrList.get(position).get("TransactionID");
+                            String resvDate = MyArrList.get(position).get("ResvDate");
+                            String startTime = MyArrList.get(position).get("StartTime");
+                            String endTime = MyArrList.get(position).get("EndTime");
+                            String userID = MyArrList.get(position).get("UserID");
+                            String roomName = MyArrList.get(position).get("RoomName");
+                            String roomID = MyArrList.get(position).get("RoomID");
+                            String staffID = myUserID;
+                            String mCommand = "changeRoomByStaff";
+
+                            MainDrawer mainActivity = (MainDrawer) getActivity();
+                            mainActivity.changeRoomByStaff(transactionID,resvDate,startTime,endTime,userID,roomName,mCommand,roomID,staffID);
                         }
                     });
                     mtr.show();

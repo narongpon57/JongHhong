@@ -95,7 +95,14 @@ public class JHSetting extends ActionBarActivity {
             smsCheckbox.setOnPreferenceChangeListener(new android.preference.Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(android.preference.Preference preference, Object newValue) {
-                    editor.putBoolean("get_boolean_sms", (Boolean)newValue);
+                    int setting;
+
+                    if ((Boolean) newValue) {
+                        setting = 1;
+                    } else {
+                        setting = 0;
+                    }
+                    editor.putInt("sms_setting",setting);
                     editor.commit();
                     sms = String.valueOf(newValue);
                     new SettingSMS().execute(JHConfig.SetttingSMS_URL);
