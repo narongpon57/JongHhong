@@ -458,10 +458,11 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
                     params.add(new BasicNameValuePair("resvDate" , edtResvDate.getText().toString()));
                     params.add(new BasicNameValuePair("start" , edtStTime.getText().toString()));
                     params.add(new BasicNameValuePair("end" , edtEnTime.getText().toString()));
+                    params.add(new BasicNameValuePair("roomName" , edtRoom.getText().toString()));
                     if(mCommand.equals("Edit")){
                         params.add(new BasicNameValuePair("tranID", mTranID));
                     }
-                    httpPost.setEntity(new UrlEncodedFormEntity(params));
+                    httpPost.setEntity(new UrlEncodedFormEntity(params,"UTF-8"));
                 } else if (chk.equals("resvRoom") && mCommand.equals("changeRoomByStaff")) {
                     params.add(new BasicNameValuePair("id" , myUserID));
                     params.add(new BasicNameValuePair("room" , sR_ID));

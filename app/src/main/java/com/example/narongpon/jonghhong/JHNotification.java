@@ -132,26 +132,31 @@ public class JHNotification extends Fragment {
                 if(data.length() >= 1) {
                     for(int i = 0; i<data.length(); i++) {
                         c = data.getJSONObject(i);
-                        mUserID = "รหัส: " + c.getString("u_resv_id");
-                        mName = "ชื่อ - นามสกุล: " +c.getString("name");
-                        mRoom = "ห้องประชุม: " +c.getString("r_name");
-                        mResvDate = "วันที่จอง: " +c.getString("resv_date");
-                        mTime = "เวลา: " + c.getString("resv_start_time") + " - " +c.getString("resv_end_time");
+                        String staffID = c.getString("u_id");
+                        Log.e("staff",staffID);
+                        if (staffID.equals(myUserID)) {
 
-                        String tranID = c.getString("t_id");
-                        String userID = c.getString("u_resv_id");
-                        String name = c.getString("name");
-                        String room = c.getString("r_name");
-                        String resvDate = c.getString("resv_date");
-                        String stTime = c.getString("resv_start_time");
-                        String enTime = c.getString("resv_end_time");
-                        String roomID = c.getString("r_id");
+                            mUserID = "รหัส: " + c.getString("u_resv_id");
+                            mName = "ชื่อ - นามสกุล: " + c.getString("name");
+                            mRoom = "ห้องประชุม: " + c.getString("r_name");
+                            mResvDate = "วันที่จอง: " + c.getString("resv_date");
+                            mTime = "เวลา: " + c.getString("resv_start_time") + " - " + c.getString("resv_end_time");
 
-                        addList(tranID, userID, name, room, resvDate, stTime, enTime, roomID);
+                            String tranID = c.getString("t_id");
+                            String userID = c.getString("u_resv_id");
+                            String name = c.getString("name");
+                            String room = c.getString("r_name");
+                            String resvDate = c.getString("resv_date");
+                            String stTime = c.getString("resv_start_time");
+                            String enTime = c.getString("resv_end_time");
+                            String roomID = c.getString("r_id");
 
-                        Card card = getNotificationListCard();
-                        materialView.add(card);
+                            addList(tranID, userID, name, room, resvDate, stTime, enTime, roomID);
 
+                            Card card = getNotificationListCard();
+                            materialView.add(card);
+
+                        }
                     }
                 } else {
                     TextView tv = (TextView)rootView.findViewById(R.id.tv_notification);
