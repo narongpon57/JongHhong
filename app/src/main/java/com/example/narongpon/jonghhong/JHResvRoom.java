@@ -296,9 +296,9 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
             mtrDialog.show();
         } else {
             if (chkTime.equals("st")) {
-                edtStTime.setText(hourOfDay + "." + newMinute);
+                edtStTime.setText(hourOfDay + ":" + newMinute);
             } else if (chkTime.equals("en")) {
-                edtEnTime.setText(hourOfDay + "." + newMinute);
+                edtEnTime.setText(hourOfDay + ":" + newMinute);
             }
         }
     }
@@ -325,8 +325,8 @@ public class JHResvRoom extends Fragment implements DatePickerDialog.OnDateSetLi
         String getStTime = edtStTime.getText().toString();
         String getEnTime = edtEnTime.getText().toString();
 
-        String[] splStTime = getStTime.split("\\.");
-        String[] splEnTime = getEnTime.split("\\.");
+        String[] splStTime = getStTime.split(":");
+        String[] splEnTime = getEnTime.split(":");
 
         int getStHour = Integer.parseInt(splStTime[0]);
         int tmpStHour = getStHour + 1;

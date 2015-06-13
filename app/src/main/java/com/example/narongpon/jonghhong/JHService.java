@@ -36,7 +36,6 @@ public class JHService extends IntentService {
             if(GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 Log.e("extras",extras.toString());
                 sendNotification(extras.getString("message"), extras.getString("username"), extras.getString("status"));
-
             }
         }
 

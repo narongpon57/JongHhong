@@ -12,7 +12,6 @@ public class JHReceiver extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        //Log.e("Receive", "GCM !!");
         ComponentName comp = new ComponentName(context.getPackageName(),
                 JHService.class.getName());
         startWakefulService(context, (intent.setComponent(comp)));

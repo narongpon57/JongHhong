@@ -116,9 +116,7 @@ public class JHResvHistory extends Fragment {
             StringBuilder str = new StringBuilder();
             HttpClient client = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(urls[0]);
-
             List<NameValuePair> params = new ArrayList<>();
-
             if(chkEvent.equals("cancel")) {
                 params.add(new BasicNameValuePair("tID", strTransactionID));
                 params.add(new BasicNameValuePair("permission", permission));

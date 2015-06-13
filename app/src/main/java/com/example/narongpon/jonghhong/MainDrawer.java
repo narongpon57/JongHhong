@@ -131,7 +131,6 @@ public class MainDrawer extends ActionBarActivity {
         }
         drawer.addDivider();
 
-
         Drawable setting_ic = getResources().getDrawable(R.drawable.settings_ic);
         drawer.addItem(new DrawerItem()
                 .setImage(setting_ic)
@@ -179,7 +178,6 @@ public class MainDrawer extends ActionBarActivity {
     }
 
     public void selectFragment(int position) {
-
         Fragment fragment = null;
         Bundle bundle;
         bundle = new Bundle();

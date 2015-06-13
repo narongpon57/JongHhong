@@ -14,7 +14,6 @@ import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gc.materialdesign.views.ButtonRectangle;
 
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -34,8 +33,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.security.auth.login.LoginException;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -86,7 +83,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private class SimpleTask extends AsyncTask<String,Void,String> {
-
         @Override
         protected void onPreExecute() {
             mProgress = new ProgressDialog(MainActivity.this);
@@ -140,7 +136,6 @@ public class MainActivity extends ActionBarActivity {
             mProgress.dismiss();
             isLoginSuccess(str);
         }
-
     }
 
     private void isLoginSuccess(String str){
@@ -158,7 +153,6 @@ public class MainActivity extends ActionBarActivity {
         String statusBan = "";
         int countBan = 0;
         int smsSetting = 0;
-
 
         try{
             jsonObject = new JSONObject(str);

@@ -134,8 +134,9 @@ public class JHNotification extends Fragment {
                         c = data.getJSONObject(i);
                         String staffID = c.getString("u_id");
                         Log.e("staff",staffID);
+                        int found = 0;
                         if (staffID.equals(myUserID)) {
-
+                            found = 1;
                             mUserID = "รหัส: " + c.getString("u_resv_id");
                             mName = "ชื่อ - นามสกุล: " + c.getString("name");
                             mRoom = "ห้องประชุม: " + c.getString("r_name");
@@ -156,6 +157,10 @@ public class JHNotification extends Fragment {
                             Card card = getNotificationListCard();
                             materialView.add(card);
 
+                        } else if(found != 1) {
+                            TextView tv = (TextView)rootView.findViewById(R.id.tv_notification);
+                            tv.setText("ไม่มีข้อมูลการแจ้งเตือน");
+                            tv.setTextSize(20);
                         }
                     }
                 } else {
